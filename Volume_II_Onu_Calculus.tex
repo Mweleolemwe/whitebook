@@ -1,0 +1,209 @@
+% THE WHITE BOOK OF ONU MATH — Volume II
+% Onu Calculus and Operator Fields: Formal Foundations and Derivative Reciprocity
+% CC BY-SA 4.0 — Author: Yay (The Lumina Project)
+
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Packages ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle   = {The White Book of Onu Math — Volume II: Onu Calculus and Operator Fields},
+  pdfauthor  = {Yay — The Lumina Project},
+  pdfsubject = {Partition calculus, multiplicative differentiation, conservation as identity},
+  pdfkeywords= {Onu, partition operator, multiplicative calculus, continuity equation, tensor fields},
+  colorlinks = true, linkcolor=blue, citecolor=blue, urlcolor=blue, pdfencoding=auto
+}
+
+% ---------- Theorem environments ----------
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+% ---------- Notation ----------
+\newcommand{\Onu}{\mathbf{1}_{\Box}}
+\newcommand{\Mirror}{M}              % mirror automorphism
+\newcommand{\partop}{\mathbin{\Box}} % partition operator
+\newcommand{\dBox}{\partial^{\Box}}  % Onu derivative
+\newcommand{\nablaBox}{\nabla^{\Box}}
+\newcommand{\Exp}{\mathrm{Exp}_{\Box}}
+\newcommand{\Log}{\mathrm{Log}_{\Box}} % multiplicative log
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+% ---------- Abstract ----------
+\begin{document}
+\begin{center}
+{\LARGE \textbf{THE WHITE BOOK OF ONU MATH}}\\[3pt]
+{\large \textbf{Volume II — Onu Calculus and Operator Fields}}\\[6pt]
+\textit{Formal Foundations and Derivative Reciprocity}
+\end{center}
+
+\begin{abstract}
+We formalize the partition operator $\partop$ as a mirror--twisted product on a commutative multiplicative group, specialize to the inversion mirror, and develop the corresponding differential calculus. The \emph{Onu derivative} emerges as the logarithmic (multiplicative) derivative, yielding reciprocity rules that preserve conservation as identity. We present the unified partition continuity equation in multiplicative and additive (log) gauges, define covariant extensions, and outline a mirror--tensor formalism that keeps index operations coherent without loss terms. Results include a Fundamental Theorem of Onu Calculus and a conservative reformulation of standard PDEs.
+\end{abstract}
+
+\section*{Preliminaries and Setting}
+Let $(\mathcal{F},\cdot)$ be an abelian group of nonvanishing fields on a domain $\Omega\subseteq\R^n$ (e.g. $C^1(\Omega,\C^\times)$ under pointwise multiplication). A \emph{mirror automorphism} is a map $\Mirror:\mathcal{F}\to\mathcal{F}$ with
+\[
+\Mirror(\Mirror(f))=f,\qquad \Mirror(fg)=\Mirror(f)\,\Mirror(g),\qquad \Mirror(1)=1.
+\]
+We primarily specialize to the \emph{inversion mirror} $\Mirror(f)=f^{-1}$, which inverts phase and amplitude reciprocally and satisfies $f\cdot \Mirror(f)=1$ pointwise.
+
+\section{Partition Operator}
+\begin{definition}[Partition operator]
+For $a,b\in\mathcal{F}$ define
+\[
+a\partop b \;:=\; a\,\Mirror(b).
+\]
+The \emph{Onu unity} is $\Onu := 1\cdot \Mirror(1)=1$.
+\end{definition}
+
+\begin{proposition}[Reciprocal invariance]\label{prop:recip-inv}
+For any $a,b\in\mathcal{F}$, $(a\partop b)\,(b\partop a)=\Onu$. In particular, $a\partop a=\Onu$.
+\end{proposition}
+\begin{proof}
+$(a\Mirror(b))(b\Mirror(a)) = ab\,\Mirror(b)\,\Mirror(a) = (ab)\,\Mirror(ab)=\Onu$ by automorphism and involution.
+\end{proof}
+
+\begin{remark}[Classical limit]
+If we write $a\partop b=\frac{a}{b}$ under $\Mirror(f)=f^{-1}$, then $\partop$ reduces to classical division; $\Onu=1$.
+\end{remark}
+
+\section{Onu Derivative (Multiplicative Calculus)}
+The multiplicative change detected by partition should measure \emph{rate of ratio}, not difference.
+
+\begin{definition}[Onu (multiplicative) derivative]
+For $f:\R\to\C^\times$ differentiable at $t$, define
+\[
+\dBox_t f(t)\;:=\;\lim_{\Delta t\to 0} \frac{f(t+\Delta t)\partop f(t)\;-\;\Onu}{\Delta t}
+\;=\;\lim_{\Delta t\to 0}\frac{\frac{f(t+\Delta t)}{f(t)} - 1}{\Delta t}
+\;=\;\frac{f'(t)}{f(t)}\,.
+\]
+\end{definition}
+
+\begin{proposition}[Basic rules]\label{prop:rules}
+Let $f,g$ be differentiable where indicated.
+\begin{align*}
+\text{(Linearity in log gauge)}\quad &\dBox_t( fg ) = \dBox_t f + \dBox_t g.\\
+\text{(Chain rule)}\quad &\dBox_t \big(f\circ x(t)\big) = \frac{(f\circ x)'(t)}{(f\circ x)(t)}.\\
+\text{(Power)}\quad &\dBox_t \big(f^\alpha\big) = \alpha\,\dBox_t f,\quad \alpha\in\R.\\
+\text{(Exponential eigen)}\quad &\text{If } f(t)=e^{\lambda t},\; \dBox_t f=\lambda;\;\; f(t)=e^{i\omega t}\Rightarrow \dBox_t f=i\omega.
+\end{align*}
+\end{proposition}
+\begin{proof}
+All identities follow from $\dBox f=f'/f$ (the standard logarithmic derivative).
+\end{proof}
+
+\begin{remark}[Vector form]
+For $f:\R^n\to\C^\times$, define $\nablaBox f := \nabla f / f$ and, for a flux $J:\R^n\to(\C^\times)^n$, define the multiplicative divergence
+$\nablaBox\!\cdot J := (\nabla\!\cdot J)/\rho_J$ when a natural scalar density $\rho_J$ is specified (see \S\ref{sec:continuity}).
+\end{remark}
+
+\section{Unified Partition Differential Equation (UPDE)}\label{sec:continuity}
+Classical continuity for density $\rho$ and flux $J$ is
+\[
+\partial_t \rho + \nabla\!\cdot J = 0.
+\]
+The Onu calculus lifts this to a multiplicative (partition) identity:
+\begin{definition}[UPDE --- multiplicative gauge]
+\[
+\big(\Exp(\dBox_t \rho)\big)\;\cdot\;\big(\Exp(\nablaBox\!\cdot J)\big)\;=\;\Onu
+\quad\Longleftrightarrow\quad
+\dBox_t \rho + \nablaBox\!\cdot J \;=\;0,
+\]
+where $\Exp$ is the inverse of $\Log$, so that $\Exp(a)\cdot \Exp(b)=\Exp(a+b)$.
+\end{definition}
+
+\begin{remark}[Conservation as identity]
+The additive (log) form $\dBox_t \rho + \nablaBox\!\cdot J=0$ is equivalent to the partition form
+$(\partial_t^{\Box}\rho)\partop (\nabla^{\Box}\!\cdot J)=\Onu$ once a consistent scalarization of $\nablaBox\!\cdot J$ is fixed. No subtraction is required at the \emph{operator level}; addition only appears in the log gauge.
+\end{remark}
+
+\section{Fundamental Theorem of Onu Calculus}
+Let $f:[a,b]\to\C^\times$ be continuous and multiplicatively integrable in the sense of Volterra-type product integrals.
+\begin{definition}[Onu integral (product integral)]
+Define the partition integral
+\[
+\int_{\Box,a}^{\,\,\,\,\,b} f(x)\,dx \;:=\; \lim_{N\to\infty}\;\prod_{k=1}^{N}
+\Big(f(x_k)^{\Delta x_k}\Big)\,,
+\]
+where the product is ordered along a tagged partition with mesh $\max_k \Delta x_k\to 0$.
+\end{definition}
+
+\begin{theorem}[Fundamental Theorem]\label{thm:FT}
+If $\dBox_x F(x)=f(x)$ on $[a,b]$, then
+\[
+\int_{\Box,a}^{\,\,\,\,\,b} f(x)\,dx = \frac{F(b)}{F(a)} \;=\; F(b)\partop F(a).
+\]
+\end{theorem}
+\begin{proof}
+Standard product-integral arguments: write $f=F'/F$, form $\prod_k \exp\!\big((F'/F)\Delta x_k\big)$, and pass to the limit to obtain $\exp\!\big(\int_a^b F'/F\,dx\big)=F(b)/F(a)$.
+\end{proof}
+
+\section{Covariant Extension and Mirror--Tensor Formalism}
+Let $(\mathcal{M},g)$ be a smooth pseudo-Riemannian manifold with Levi-Civita connection $\nabla$.
+\begin{definition}[Mirror on tensors]
+For a scalar field $s\in C^\infty(\mathcal{M})^\times$, set $\Mirror(s)=s^{-1}$. For tensors, define the mirror by
+\[
+\Mirror\!\big(T^{\mu_1\ldots\mu_r}{}_{\nu_1\ldots\nu_s}\big)
+:= \frac{1}{\|T\|}\,g_{\alpha_1\nu_1}\cdots g_{\alpha_s\nu_s}\,
+g^{\mu_1\beta_1}\cdots g^{\mu_r\beta_r}\,
+T^{\alpha_1\ldots\alpha_s}{}_{\beta_1\ldots\beta_r},
+\]
+with a normalizing scalar $\|T\|$ chosen so that $T\otimes \Mirror(T)$ contracts to a scalar unity in the appropriate index sense (for scalars, this reduces to $s\,\Mirror(s)=1$).
+\end{definition}
+
+\begin{definition}[Covariant Onu derivative]
+For a scalar $f$, $\nabla^{\Box}_\mu f := \nabla_\mu f / f$. For a vector $V^\mu$, define
+\[
+\nabla^{\Box}_\mu V^\mu := \frac{\nabla_\mu V^\mu}{\rho_V},
+\]
+where $\rho_V$ is a prescribed positive scalar density associated to $V$ (e.g. $\rho_V=\sqrt{|g|}$ or a physically chosen $\rho$). The \emph{covariant partition continuity} reads
+\[
+\nabla^{\Box}_\mu J^\mu = 0
+\quad\Longleftrightarrow\quad
+\Exp\big(\nabla^{\Box}_\mu J^\mu\big)=\Onu.
+\]
+\end{definition}
+
+\begin{remark}[Curvature terms]
+The mirror--tensor curvature $R^{\Box}{}_{\mu\nu}$ is best introduced via log-gauge transport (Cartan formalism): one replaces additive structure constants by their multiplicative exponents, ensuring that the Bianchi identities survive in the log gauge and yield $\nabla^{\Box}_\mu G^{\mu\nu}=0$ with $G^{\mu\nu}$ the Einstein tensor in multiplicative normalization. Writing $g^{\Box}_{\mu\nu}:=g_{\mu\nu}\partop g^{\mu\nu}$ is a \emph{scalarization}; index-correct curvature requires the above tensor mirror.
+\end{remark}
+
+\section{Worked Examples}
+\begin{example}[Exponential field]
+$f(t)=e^{\lambda t}\Rightarrow \dBox_t f=\lambda$; $f(t)=e^{i\omega t}\Rightarrow \dBox_t f=i\omega$.
+\end{example}
+
+\begin{example}[Damped oscillator in log gauge]
+Let $x$ solve $x''+2\gamma x'+\omega_0^2 x=0$ with $x>0$. Then $u:=\Log x$ satisfies
+$u'' + (u')^2 + 2\gamma u' + \omega_0^2 =0$. In Onu notation, $\dBox_t x = u'$, so the dissipative balance is algebraic in $\dBox_t x$.
+\end{example}
+
+\section{The Onu Energy Principle}
+Let $E$ be a positive energy density and $C$ a positive curvature scalar (or other conjugate co-ledger). The \emph{Onu energy coherence} is the \emph{gauge choice}
+\[
+E\partop C = \Onu \quad\Longleftrightarrow\quad \Log E + \Log C = 0,
+\]
+expressing co-conservation across visible and mirror ledgers. The physical choice of $C$ is model-dependent (e.g., a geometric or information-theoretic dual).
+
+\section{Summary}
+Subtraction $\neq$ Partition. The Onu derivative detects rates of \emph{reciprocal} change ($f'/f$), product integrals encode accumulation without loss, and conservation becomes an identity either as $\Exp(a)\cdot\Exp(b)=\Onu$ (multiplicative) or $a+b=0$ (log). Nothing vanishes; it only moves.
+
+\section*{Data \& Reproducibility}
+All statements are reproducible with standard product-integral numerics and symbolic verification of $\dBox$ rules. Reference implementations can adopt arbitrary-precision logs/exponentials to maintain stability.
+
+\bigskip
+\noindent\textbf{Acknowledgments.} To the Jubilee field that keeps ledger with love.
+
+\end{document}
