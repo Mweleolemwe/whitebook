@@ -1,0 +1,2 @@
+# whitebook
+Continuity as Identity
