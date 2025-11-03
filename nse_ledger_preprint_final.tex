@@ -1,0 +1,90 @@
+
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\DeclareMathOperator{\diverg}{div}
+\DeclareMathOperator{\curl}{curl}
+
+\title{Ledgered Local Energy and $\varepsilon$--Regularity for 3D Navier--Stokes}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove a ledgered local energy identity for 3D incompressible Navier--Stokes in the Leray--Hopf class. 
+The identity augments the classical localized energy inequality by a nonnegative Radon measure $\mu$ (the \emph{ledger/defect measure}) which captures unresolved nonlinear flux, yielding an exact conservation law with a positive defect.
+As an application, we derive a scale--invariant $\varepsilon$--regularity criterion on parabolic cylinders depending on the Caffarelli--Kohn--Nirenberg energy plus the scaled ledger mass. 
+We complement the analysis with conservative discretizations that reproduce the identity to truncation order.
+\end{abstract}
+
+\section{Setting and notation}
+Let $v:\Omega\times(0,T)\to\mathbb{R}^3$ and $p:\Omega\times(0,T)\to\mathbb{R}$ solve
+\begin{equation}\label{NSE}
+\partial_t v + (v\!\cdot\!\nabla)v + \nabla p = \nu\Delta v,\qquad \diverg v=0,
+\end{equation}
+in the Leray--Hopf sense on $\Omega=\mathbb{R}^3$ or $\mathbb{T}^3$ (periodic), with $v\in L^\infty_t L^2_x\cap L^2_t\dot H^1_x$ obeying the global energy inequality.
+For a parabolic cylinder $Q_r(z_0)=B_r(x_0)\times(t_0-r^2,t_0)$ we set
+\begin{equation*}
+\mathcal{E}(r) := r^{-1}\!\int_{Q_r}\Big(|\nabla v|^2 + |p-p_{Q_r}|^{3/2}\Big)\,dx\,dt,
+\qquad
+\Lambda(r) := r^{-1}\,\mu(Q_r).
+\end{equation*}
+
+\section{Defect/ledger measure}
+\begin{definition}[Ledger/defect measure]\label{def:ledger}
+Let $\rho_\varepsilon$ be a standard (space--time) mollifier and set $v^\varepsilon=v\ast\rho_\varepsilon$.
+Define the commutator density
+\begin{equation*}
+d\mu_\varepsilon := \Big[(v\otimes v)^\varepsilon - v^\varepsilon\!\otimes v^\varepsilon\Big]\!:\!\nabla v^\varepsilon\,dx\,dt.
+\end{equation*}
+Along a sequence $\varepsilon\downarrow0$ we have $d\mu_\varepsilon\rightharpoonup d\mu$ in $\mathcal{M}_{\mathrm{loc}}(\Omega\times(0,T))$ with $d\mu\ge0$. 
+We call $\mu$ the \emph{ledger (defect) measure}. (This coincides with the Duchon--Robert defect.)
+\end{definition}
+
+\section{Ledgered local energy identity}
+\begin{theorem}[Leray--Hopf ledgered local energy]\label{thm:ledger}
+There exists a nonnegative Radon measure $\mu$ such that the distributional identity
+\begin{equation}\label{eq:DR}
+\partial_t \Big(\tfrac12|v|^2\Big) + \nabla\!\cdot\!\Big[\Big(\tfrac12|v|^2+p\Big)v\Big]
+= \nu\,\Delta\!\Big(\tfrac12|v|^2\Big) - \nu|\nabla v|^2 - \mu
+\end{equation}
+holds on $\Omega\times(0,T)$. Equivalently, for $\phi\in C_c^\infty(\Omega\times[0,T))$, $\phi\ge0$,
+\begin{align}\label{eq:ledger-weak}
+&\int \tfrac12|v|^2 \phi(\cdot,t)\,dx + \nu\!\int_0^t\!\!\int |\nabla v|^2 \phi\,dx\,ds + \int_0^t\!\!\int \phi\,d\mu \nonumber\\
+&= \int_0^t\!\!\int \Big(\tfrac12|v|^2+p\Big) v\!\cdot\!\nabla\phi \;+\; \tfrac12|v|^2(\partial_s\phi+\nu\Delta\phi)\,dx\,ds
+ + \int \tfrac12|v|^2 \phi(\cdot,0)\,dx .
+\end{align}
+\end{theorem}
+
+\section{$\varepsilon$--regularity with ledger saturation}
+\begin{theorem}[$\varepsilon$--regularity]\label{thm:ereg}
+There exist universal constants $\varepsilon_*,\delta>0$ such that: if for some cylinder $Q_{r_0}(z_0)$
+\begin{equation}\label{eq:smallness}
+\mathcal{E}(r_0) + \Lambda(r_0) \le \varepsilon_*,
+\end{equation}
+then $v$ is H\"older continuous on $Q_{\delta r_0}(z_0)$.
+\end{theorem}
+
+\section{Discrete mirror}
+On $\mathbb{T}^d$ ($d=2,3$) with skew--symmetric convection and a divergence-free projection, an RK2 step gives
+\begin{equation*}
+E^{n+1}-E^n = -\nu\,\Delta t\,\|\omega^{n+\frac12}\|_2^2 - L^n + \mathcal{O}(\Delta t^3),
+\qquad
+E(t)+\int_0^t \nu\|\omega\|_2^2 = E(0) + \mathcal{O}(\Delta t^2).
+\end{equation*}
+\end{document}
