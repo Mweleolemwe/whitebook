@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onu_ledger"
+version = "0.1.0"
+description = "Partition-first, non-erasure ledger toolkit (Lumina/Onu): reversible codecs, Merkle-anchored provenance, and query-conditioned Ledger Entropy."
+authors = [{name="Yay", email="mweleolemwe@example.com"}]
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text="CC0-1.0"}
+dependencies = []
+
+[project.scripts]
+onu-ledger = "onu_ledger.cli:main"
