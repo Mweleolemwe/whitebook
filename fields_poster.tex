@@ -1,0 +1,140 @@
+
+% !TEX program = pdflatex
+\documentclass[final,hyperref={pdfpagelabels=false}]{beamer}
+\usepackage[size=a0,scale=1.15]{beamerposter}
+\usetheme{confposter}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{hyperref}
+\IfFileExists{qrcode.sty}{\usepackage{qrcode}}{}
+
+\definecolor{TitleBlue}{HTML}{0B3D91}
+\definecolor{DarkBlue}{HTML}{0A2A6B}
+\definecolor{AccentBlue}{HTML}{1F78B4}
+\definecolor{Slate}{HTML}{222222}
+\definecolor{GrayText}{HTML}{3E3E3E}
+\setbeamercolor{block title}{fg=white,bg=DarkBlue}
+\setbeamercolor{block body}{bg=white,fg=Slate}
+\setbeamercolor{title}{fg=TitleBlue}
+\setbeamercolor{frametitle}{fg=TitleBlue}
+\setbeamercolor{normal text}{fg=Slate,bg=white}
+
+\title{\textbf{Ledgered Local Energy for 3D Navier--Navier--Stokes: Defect Measures, $\varepsilon$-Regularity, and a Conservative Numerical Diagnostic}}
+\author{Your Name \quad|\quad Affiliation}
+\institute{\href{mailto:you@example.com}{you@example.com} \quad | \quad \href{https://doi.org/10.6084/m9.figshare.30520784}{Replication DOI: 10.6084/m9.figshare.30520784}}
+\date{\today}
+
+\newlength{\sepwid}
+\newlength{\colwid}
+\newlength{\onecolwid}
+\setlength{\sepwid}{0.015\paperwidth}
+\setlength{\colwid}{0.30\paperwidth}
+\setlength{\onecolwid}{0.64\paperwidth}
+\setlength{\columnsep}{\sepwid}
+\setlength{\columnseprule}{0mm}
+
+\begin{document}
+\begin{frame}[t]
+\begin{center}
+    {\usebeamercolor[fg]{title}\fontsize{88}{90}\selectfont \inserttitle\par}
+    \vspace{0.3cm}
+    {\large \insertauthor \par}
+    \vspace{0.15cm}
+    {\normalsize \insertinstitute \par}
+\end{center}
+\vspace{0.5cm}
+
+\begin{columns}[t]
+\begin{column}{\colwid}
+
+\begin{block}{Motivation \& Problem}
+\textbf{Goal.} Strengthen the localized energy framework for Leray--Hopf solutions of 3D NSE by \emph{accounting} for unresolved nonlinear flux via a nonnegative defect/ledger measure.\\[0.3em]
+\textbf{Why it matters.} Places a positive term on the LHS of the local balance $\Rightarrow$ sharper Caccioppoli estimates and a scale-invariant $\varepsilon$-regularity criterion.
+\end{block}
+
+\begin{block}{Ledgered Local Energy Identity (Theorem 1)}
+Let $v$ be a Leray--Hopf solution with pressure $p$. There exists a nonnegative Radon measure $\mu$ such that in distributions
+\begin{equation*}
+\partial_t\!\Big(\tfrac12|v|^2\Big)+\nabla\!\cdot\!\Big[\big(\tfrac12|v|^2+p\big)v\Big]
+=\nu\,\Delta\!\Big(\tfrac12|v|^2\Big)-\nu|\nabla v|^2-\mu.
+\end{equation*}
+For $\phi\ge0$ compactly supported,
+\begin{align*}
+\int \tfrac12|v|^2 \phi &+ \nu\!\int |\nabla v|^2\phi + \int \phi\,d\mu \\
+&= \int \Big(\tfrac12|v|^2+p\Big) v\!\cdot\!\nabla\phi + \tfrac12|v|^2(\partial_t\phi+\nu\Delta\phi).
+\end{align*}
+\textbf{Ledger.} $\mu$ is the Duchon--Robert defect; for smooth flows $\mu\equiv0$.
+\end{block}
+
+\begin{block}{$\varepsilon$-Regularity with Ledger Saturation (Theorem 2)}
+On cylinders $Q_r$, define the CKNS energy $\mathcal E(r)$ and scaled ledger mass $\Lambda(r)=r^{-1}\mu(Q_r)$.\\[0.3em]
+\textbf{Criterion.} If $\mathcal E(r_0)+\Lambda(r_0)\le \varepsilon_*$ then $v$ is H\"older on $Q_{\delta r_0}$ (universal $\varepsilon_*,\delta>0$).
+\end{block}
+
+\end{column}
+
+\begin{column}{\colwid}
+
+\begin{block}{Evidence Engine (Conservative Diagnostic)}
+Periodic 2D vorticity--streamfunction NSE with Arakawa Jacobian and FFT Poisson solve.
+\begin{equation*}
+E(t)+\int_0^t \nu\|\omega\|_2^2 = E(0)+\mathcal O(\Delta t^2).
+\end{equation*}
+\textbf{Artifacts (DOI):} \texttt{nse\_ledger\_scheme.py}, \texttt{ledger\_timeseries.csv}, \texttt{ledger\_timeseries.png}.\\[0.6em]
+\begin{center}
+\includegraphics[width=0.96\linewidth]{ledger_timeseries.png}\\[-0.4em]
+{\footnotesize (Replace with your regenerated figure; available at the DOI.)}
+\end{center}
+\end{block}
+
+\begin{block}{Lumina $\leftrightarrow$ PDE Crosswalk}
+\begin{itemize}[leftmargin=1.1em]
+\item \textbf{Partition} $\leftrightarrow$ localized balance with explicit transport of cutoffs.
+\item \textbf{Ledger} $\leftrightarrow$ nonnegative defect measure $\mu$ (Duchon--Robert).
+\item \textbf{Ledger mass} $\Lambda(r)$ $\leftrightarrow$ scaled measure $r^{-1}\mu(Q_r)$.
+\item \textbf{Evidence engine} $\leftrightarrow$ discrete budget closing to $\mathcal O(\Delta t^2)$.
+\end{itemize}
+\end{block}
+
+\begin{block}{Replication \& Package}
+\textbf{Permanent DOI:} \href{https://doi.org/10.6084/m9.figshare.30520784}{10.6084/m9.figshare.30520784}\\[0.4em]
+\IfFileExists{qrcode.sty}{\begin{center}\qrcode[height=6cm]{https://doi.org/10.6084/m9.figshare.30520784}\end{center}}{}
+\end{block}
+
+\end{column}
+
+\begin{column}{\colwid}
+
+\begin{block}{Methods (One-slide view)}
+\textbf{Analysis.} Mollify, derive exact balance + commutator, pass to limit; identify $\mu\ge0$ with Duchon--Robert defect.\\
+\textbf{Regularity.} Caccioppoli with $\int\phi\,d\mu$ on the LHS; CKNS blow-up/compactness $\Rightarrow$ ancient limit with $\mu=0$ is trivial.\\
+\textbf{Numerics.} Skew-symmetric convection; spectral Poisson; RK2; ledger residual plotted and shown to be $\mathcal O(\Delta t^2)$.
+\end{block}
+
+\begin{block}{Impact \& Adoption}
+\begin{itemize}[leftmargin=1.1em]
+\item Ledger identity tightens localized energy bookkeeping.
+\item Criterion stated in CKNS scale; directly testable numerically.
+\item Evidence engine is minimal, reproducible, and conservative.
+\end{itemize}
+\end{block}
+
+\begin{block}{Acknowledgements \& References (abridged)}
+Caffarelli--Kohn--Nirenberg (1982); Duchon--Robert (2000); Ladyzhenskaya; Temam; Koch--Tataru (2001).\\[0.3em]
+\small Full references in the preprint.
+\end{block}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+\end{document}
