@@ -1,0 +1,71 @@
+
+% !TEX program = pdflatex
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\definecolor{DeepBlue}{HTML}{0B3D91}
+\definecolor{Slate}{HTML}{222222}
+
+\begin{document}
+{\LARGE \textbf{\textcolor{DeepBlue}{FIELDS' MILLENNIUM FALCON}}}\\[-0.2em]
+{\large \textit{Ledgered Navier--Stokes Program --- Launch Manifest (One Pager)}}\\[0.6em]
+
+\noindent\textbf{Mission.}
+Strengthen localized energy analysis for 3D incompressible NSE by \emph{accounting} for unresolved flux via a nonnegative defect/ledger measure, derive a scale-invariant $\varepsilon$-regularity criterion, and ship a conservative diagnostic that prints the energy ledger to truncation order.
+
+\vspace{0.5em}
+\noindent\textbf{Core Identity (Ledgered Local Energy; Leray--Hopf).}
+\begin{equation*}
+\partial_t\!\Big(\tfrac12|v|^2\Big)+\nabla\!\cdot\!\Big[\big(\tfrac12|v|^2+p\big)v\Big]
+=\nu\,\Delta\!\Big(\tfrac12|v|^2\Big)-\nu|\nabla v|^2-\mu,\qquad \mu\ge 0.
+\end{equation*}
+Weak form places $\int\phi\,d\mu$ on the LHS as a positive term, sharpening Caccioppoli.
+
+\vspace{0.4em}
+\noindent\textbf{$\varepsilon$-Regularity (ledger saturation).}
+For parabolic cylinders $Q_r$ with scaled CKNS energy $\mathcal E(r)$ and ledger mass $\Lambda(r)=r^{-1}\mu(Q_r)$, smallness of $\mathcal E(r_0)+\Lambda(r_0)$ implies H\"older regularity on $Q_{\delta r_0}$.
+
+\vspace{0.5em}
+\noindent\textbf{Evidence Engine (conservative diagnostic).}
+2D vorticity--streamfunction NSE (periodic), Arakawa Jacobian + FFT Poisson:
+\begin{equation*}
+E(t)+\int_0^t \nu\|\omega\|_2^2 = E(0) + \mathcal O(\Delta t^2).
+\end{equation*}
+\emph{Artifacts (permanent DOI):} \href{https://doi.org/10.6084/m9.figshare.30520784}{10.6084/m9.figshare.30520784}\,.
+
+\vspace{0.5em}
+\noindent\textbf{72-Hour Sprint (deliverables).}
+\begin{itemize}[leftmargin=1.2em,itemsep=0.25em]
+\item \textbf{Preprint v1 (arXiv)}: abstract, full ledger identity, $\varepsilon$-regularity statement, reproducibility section (DOI).
+\item \textbf{Figures}: $E(t)$, $\int_0^t\nu\|\omega\|^2$, residual; log--log residual vs.\ $\Delta t$ (slope $\approx 2$).
+\item \textbf{Comms}: seminar email; homepage one-liner; poster PDF.
+\end{itemize}
+
+\vspace{0.2em}
+\noindent\textbf{30/90-Day Flight Plan.}
+\begin{itemize}[leftmargin=1.2em,itemsep=0.2em]
+\item \textbf{P1}: Ledgered Local Energy (full proof; Leray--Hopf; DR consistency).
+\item \textbf{P2}: $\varepsilon$-regularity with ledger; CKNS-scale criterion.
+\item \textbf{Adoption}: repo, CI, minimal API; external users reproduce plots.
+\end{itemize}
+
+\vspace{0.2em}
+\noindent\textbf{Lumina $\leftrightarrow$ PDE Crosswalk.}
+Partition $\leftrightarrow$ localized balance with transported cutoffs;\quad
+ledger $\leftrightarrow$ nonnegative defect measure $\mu$;\quad
+ledger mass $\Lambda(r)$ $\leftrightarrow$ $r^{-1}\mu(Q_r)$;\quad
+evidence engine $\leftrightarrow$ discrete budget closing to $\mathcal O(\Delta t^2)$.
+
+\vspace{0.6em}
+\noindent\textbf{Replication (cite in text).}
+\emph{Conservative ledger diagnostic for periodic 2D NSE: code and artifacts}, figshare (2025).
+DOI: \href{https://doi.org/10.6084/m9.figshare.30520784}{10.6084/m9.figshare.30520784}.
+
+\end{document}
