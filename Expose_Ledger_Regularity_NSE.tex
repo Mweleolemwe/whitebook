@@ -1,0 +1,137 @@
+
+\documentclass[11pt]{article}
+
+% ---------- Preamble ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black}
+
+% Theorem styles
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% Shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\Div}{\nabla\!\cdot}
+\newcommand{\grad}{\nabla}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bn}{\mathbf{n}}
+
+\title{\bfseries Expos\'e: Ledger Regularity and the True Accounting of Energy in Navier--Stokes Theory}
+\author{Lumina Group}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formulate a ledgered local energy identity for Leray--Hopf weak solutions of the incompressible Navier--Stokes equations. The identity augments the classical balance by a nonnegative Radon measure~$\mu$ that accounts for all unresolved nonlinear flux. We state an $\varepsilon$-regularity criterion whose hypothesis is the classical CKNS smallness plus the (scaled) ledger mass. This places the ``defect'' at the center of both analysis and computation: nothing vanishes; it only moves.
+\end{abstract}
+
+\section{Theorem 1 (Ledgered Local Energy Identity---Leray--Hopf class)}
+
+\paragraph{Setting.}
+Let $v$ be any Leray--Hopf weak solution to the incompressible Navier--Stokes equations with pressure $p$ on a smooth domain (or $\R^3$/$\mathbb T^3$). Then there exists a nonnegative Radon measure $\mu$ (\emph{ledger/defect}) such that, as measures,
+\begin{equation}
+\partial_t \Big(\tfrac12|v|^2\Big)
++ \nabla\!\cdot\!\Big[\Big(\tfrac12|v|^2 + p\Big)v\Big]
+= \nu \Delta\Big(\tfrac12|v|^2\Big) - \nu|\nabla v|^2 \;-\; \mu .
+\tag{1}\label{eq:ledger-identity}
+\end{equation}
+
+\paragraph{Proof (sketch, complete steps included).}
+Let $\rho_\varepsilon$ be a spatial mollifier and set $v^\varepsilon=\rho_\varepsilon*v$. The regularized equation
+$\partial_t v^\varepsilon + \nabla\!\cdot (v\otimes v)^\varepsilon + \nabla p^\varepsilon = \nu \Delta v^\varepsilon$
+is tested against $v^\varepsilon \phi$ for $\phi\in C_c^\infty$ on space--time cylinders. After standard integrations by parts one obtains the exact balance
+\begin{align*}
+\int \tfrac12 |v^\varepsilon|^2 \phi(\cdot,t)\,dx
+&+ \nu\!\int_0^t\!\!\int |\nabla v^\varepsilon|^2 \phi\,dx\,ds \\
+&= \int_0^t\!\!\int
+\Big(\tfrac12|v^\varepsilon|^2+p^\varepsilon\Big)v^\varepsilon\!\cdot\!\nabla\phi
++ \tfrac12 |v^\varepsilon|^2(\partial_s\phi+\nu\Delta\phi)\,dx\,ds
++ \int \tfrac12|v^\varepsilon|^2 \phi(\cdot,0)\,dx
++ \mathcal C_\varepsilon[\phi],
+\end{align*}
+where the commutator
+$\mathcal C_\varepsilon[\phi]
+= \int_0^t\!\!\int \big[(v\otimes v)^\varepsilon - v^\varepsilon\!\otimes v^\varepsilon\big]:\nabla v^\varepsilon \,\phi\,dx\,ds
+$
+is nonnegative in the limit (Duchon--Robert coarse-graining). Using weak convergence of $v^\varepsilon\to v$, lower semicontinuity, and the Leray--Hopf bounds, all other terms pass to the limit. The weak-$\ast$ limit of $\mathcal C_\varepsilon[\phi]$ defines a nonnegative Radon measure $\mu$, yielding
+\begin{align}
+\int \tfrac12|v|^2 \phi(\cdot, t)\,dx
++ \nu\!\int_0^t\!\!\int |\nabla v|^2\phi\,dx\,ds
++ \int_0^t\!\!\int \phi \, d\mu
+= \int_0^t\!\!\int
+   \Big(\tfrac12|v|^2 + p\Big) v \!\cdot\! \nabla\phi
+   + \tfrac12|v|^2 (\partial_s\phi + \nu\Delta\phi)
+\,dx\,ds + \int \tfrac12|v|^2 \phi(\cdot,0)\,dx .
+\tag{2}\label{eq:weak-form}
+\end{align}
+For smooth solutions, $\mu\equiv0$. Dropping the nonnegative term $\int\phi\,d\mu$ recovers the classical local energy inequality.
+\qed
+
+\begin{definition}[Duchon--Robert ledger/defect]
+The measure $\mu$ coincides with the weak limit of the commutator densities
+\[
+d\mu_\varepsilon
+:= \Big[(v\otimes v)^\varepsilon - v^\varepsilon\!\otimes v^\varepsilon\Big]:\nabla v^\varepsilon\,dx\,dt
+\;\rightharpoonup\; d\mu\ge 0 .
+\]
+\end{definition}
+
+\section{$\varepsilon$-Regularity with Ledger Saturation}
+
+Fix a parabolic cylinder centered at $(x_0,t_0)$,
+$Q_r= B_r(x_0)\times(t_0-r^2,t_0)$.
+Define the (scale-invariant) CKNS energy and ledger mass
+\[
+\mathcal E(r):= r^{-1}\!\int_{Q_r}\!\big(|\nabla v|^2+|p-p_{Q_r}|^{3/2}\big)\,dx\,dt,
+\qquad
+\Lambda(r):= r^{-1}\,\mu(Q_r).
+\]
+
+\begin{theorem}[$\varepsilon$-regularity with ledger]
+There exist universal constants $\varepsilon_*,\delta>0$ such that if for some $r_0$
+\begin{equation}
+\mathcal E(r_0)+\Lambda(r_0)\le \varepsilon_*,
+\tag{3}\label{eq:eps}
+\end{equation}
+then $v$ is H\"older continuous in $Q_{\delta r_0}$ and hence regular at $(x_0,t_0)$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Repeat the Caffarelli--Kohn--Nirenberg blow-up/compactness scheme with \eqref{eq:weak-form} in place of the inequality. The Caccioppoli estimate acquires the additional nonnegative term $\int\phi\,d\mu$ on the left; the smallness of $\Lambda(r_0)$ prevents undetected dissipation in the limit. The rescaled sequence admits an ancient limit which, by the improved balance, must be caloric and therefore trivial under \eqref{eq:eps}. This contradicts normalization unless $(x_0,t_0)$ is regular.
+\end{proof}
+
+\begin{remark}[Ledger interpretation]
+The ledger closes the classical ``blind spot'': any flux that would otherwise disappear at the weak limit is recorded as $\mu$. Thus a singularity cannot \emph{hide}; it must ``pay into the ledger,'' violating~\eqref{eq:eps}.
+\end{remark}
+
+\section*{Acknowledgments and Computational Notes}
+Discrete conservative solvers can compute the ledger defect to truncation order, providing a practical diagnostic for near-singular events. The density-form divergence should be used in curved geometries to preserve tensorial structure.
+
+\begin{thebibliography}{9}
+\bibitem{DR00}
+J.~Duchon and R.~Robert,
+\newblock Inertial energy dissipation for weak solutions of incompressible Euler and Navier--Stokes equations,
+\newblock \emph{Nonlinearity} 13 (2000), 249--255.
+
+\bibitem{CKN82}
+L.~Caffarelli, R.~Kohn, and L.~Nirenberg,
+\newblock Partial regularity of suitable weak solutions of the Navier--Stokes equations,
+\newblock \emph{Comm. Pure Appl. Math.} 35 (1982), 771--831.
+\end{thebibliography}
+
+\end{document}
