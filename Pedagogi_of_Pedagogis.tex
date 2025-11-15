@@ -99,6 +99,700 @@ function ratio(numK,denK)
   local numv= num(metrics[numK])
   if den and numv and den~=0 then return string.format("%.3f", numv/den) else return "NA" end
 end
+
+function explainBadge(name, result, detail)
+  local badge = result and "\\badgePass" or "\\badgeFail"
+  tex.print(string.format("%s~~(%s): %s\\par", badge, name, detail))
+end
+
+function endpoints_summary()
+  local hits = 0
+  local rmssd_pre  = num(metrics.rmssd_pre_ms)
+  local rmssd_post = num(metrics.rmssd_post_ms)
+  local delta_rmssd = rmssd_post - rmssd_pre
+  local h1 = rmssd_post and rmssd_pre and delta_rmssd >= 5.0
+  explainBadge("H1", h1, string.format("$\\Delta$RMSSD = %.1f ms ($\\ge 5.0$)", delta_rmssd))
+
+  local lfv_base = num(metrics.lfv_base)
+  local lfv_post = num(metrics.lfv_post)
+  local lf_peak = num(metrics.lf_peak_hz_post)
+  local gain = lfv_post / lfv_base
+  local h2 = lfv_base > 0 and gain >= 1.25 and lf_peak >= 0.08 and lf_peak <= 0.12
+  explainBadge("H2", h2, string.format("LF gain = %.2f ($\\ge 1.25$), peak = %.2f Hz", gain, lf_peak))
+
+  local rv_base = num(metrics.resp_var_base)
+  local rv_post = num(metrics.resp_var_post)
+  local rv_ratio = rv_post / rv_base
+  local h3 = rv_base > 0 and rv_ratio <= 0.80
+  explainBadge("H3", h3, string.format("Resp var ratio = %.2f ($\\le 0.80$)", rv_ratio))
+
+  local vpre = num(metrics.varlog_voice_pre)
+  local vpost = num(metrics.varlog_voice_post)
+  local drop = (vpost - vpre)/vpre
+  local h4 = vpre > 0 and drop <= -0.10
+  explainBadge("H4", h4, string.format("$\\Delta$Var = %.1f\\%% ($\\le -10\\%%$)", drop * 100))
+
+  local list = {h1,h2,h3,h4}
+  for _,h in ipairs(list) do if h then hits=hits+1 end end
+
+  tex.print("\\medskip")
+  tex.print("\\textit{Pass if $\\ge 2$ of 4 endpoints hold.}\\par\\bigskip")
+  tex.print(hits >= 2 and "\\stateCowabunga" or "\\stateRetry")
+end
+\end{luacode*}
+
+\newcommand{\Metric}[1]{\directlua{tex.print(get("#1"))}}
+\newcommand{\DeltaM}[2]{\directlua{tex.print(delta("#1","#2"))}}
+\newcommand{\RatioM}[2]{\directlua{tex.print(ratio("#1","#2"))}}
+\newcommand{\EndpointBadges}{\directlua{endpoints_summary()}}
+
+% ---------- Title ----------
+\title{Pedagogy of Sacred Light v2.17 (Coltrane Mandala Edition)\\[2pt]
+\large Onu Ledger, Scale Calculus, MWƐN Biology \& Physiology\\[2pt]
+with Chemistry, Music/Cymatics, Architecture, Realm Metrology,\\[1pt]
+and \emph{Emotional Field Patches}}
+\author{Yay \quad(\small Super Lumina OC Pedagogy)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a replication-ready pedagogy that unifies mathematics, physiology, architecture, chemistry, music/cymatics, and \emph{emotional field dynamics} under a single \emph{positive-domain ledger} and a \emph{scale-heat kernel}. The ledger replaces subtraction with inversion/partition on $\Rpos$, while the scale operator $\RLO=(z\partial_z)^2$ reduces to $\partial_{ss}$ in log-gauge $s=\ln z$, yielding a heat-flow in $s$ that \emph{predictably reduces log-variance}. A 64-bit \emph{octave horizon} assigns to every phenomenon an integer realm index $n_{\text{realm}}$ from its effective characteristic length $L_{\text{eff}}$, locating emotional, chemical, architectural, and physiological assets on one spiral of realms. One metric anchors all facets:
+\[
+\Delta \Var_s\!\big[\ln P\big] \;<\; 0,
+\]
+observed across \emph{voice acoustics}, \emph{HRV spectra}, \emph{room acoustics}, and \emph{emotional potential}. The physiology asset adopts \textbf{RMSLR} (Root Mean Square of Successive \emph{Log}-Ratios) for ledger-consistent HRV. The Music/Cymatics facet is deepened by mapping the Circle of Fifths and John Coltrane's ``tone mandala'' onto the $\ln$-gauge, showing that harmonic consonance and the mandala's symmetric cycles are discrete low-$\Var_s$ flows on the same log-frequency lattice. A LuaLaTeX self-check ingests live metrics, evaluates preregistered endpoints (H1--H4), labels the active realms, and prints a global state badge (\textbf{COWABUNGA}/RETUNE).
+\end{abstract}
+
+\tableofcontents
+
+% =========================
+\section{Foundations: positive domain and the ledger}
+% =========================
+
+\subsection{Group, inversion, and ``no subtraction''}
+Let $\Rpos$ be positive reals under multiplication. Use $\ln:\Rpos\!\to\!\mathbb{R}$ to map products to sums.
+
+\begin{definition}[Inversion]
+$\I:\Rpos\to\Rpos$, $\ \I(x)=x^{-1}$ with $\I\circ\I=\mathrm{id}$.
+\end{definition}
+
+\begin{definition}[Onu difference]
+For $a,b>0$ define
+\[
+a\ominus b := a\,b^{-1}\in\Rpos,\qquad \ln(a\ominus b)=\ln a-\ln b.
+\]
+To handle zeros in measured data, use the stabilized log
+\[
+\slog_\epsilon(x)=\ln(x+\epsilon),\qquad \epsilon=\text{1\% of median nonzero (report)}.
+\]
+\end{definition}
+
+\subsection{Ledger invariant}
+Given positive factors $\{x_i\}$, the \emph{ledger} $\mathcal{L}=\prod_i x_i$. Conservation under transfers mediated by $\I$ is equivalently a log-sum invariant:
+\[
+\prod_i x_i=C \iff \sum_i \ln x_i=\ln C.
+\]
+
+\subsection{Scale gauge, Hilbert space, and the RLO}
+Let $s=\ln z$ so that $\partial_s=z\partial_z$. Define $\E:=z\partial_z$. Work on
+\[
+\Ltwo\!\left((0,\infty),\frac{\dd z}{z}\right) \simeq \Ltwo(\mathbb{R},\dd s).
+\]
+\begin{definition}[Reciprocal Limic Operator (RLO)]
+\[
+\RLO[f] := \E^2 f \;=\; z^2 f_{zz}+z f_z \;=\; \partial_{ss} f \quad\text{(in the $s$-gauge).}
+\]
+\end{definition}
+\paragraph{Energy.}
+With $f\in H^1(\mathbb{R})$, $\mathcal{E}[f]=\tfrac{1}{2}\int(\partial_s f)^2\,\dd s$ is nonincreasing under the log-heat (below).
+
+% =========================
+\section{Core equations}
+% =========================
+
+\subsection{Static (Euler--Cauchy) problem}
+\[
+z^2 f_{zz}+z f_z-\kappa f=0
+\;\Rightarrow\;
+f(z)=A z^{\alpha_+}+B z^{\alpha_-},\quad
+\alpha_{\pm}=\tfrac{1\pm\sqrt{1+4\kappa}}{2}.
+\]
+\footnote{This is the stationary part of the log-heat equation. It describes the equilibrium spatial profile of an intensity $f(z)$ when the diffusion ($\RLO$) is balanced by a first-order decay ($-\kappa f$). The solutions $z^{\alpha}$ are \emph{power laws}, which describe many scale-invariant phenomena like fractal distributions or self-similar growth.}
+
+\subsection{Dynamics (log-heat)}
+Let $f(z,t)$ be an intensity on $z>0$. With $\kappa(t)=U(t)\,D$ where $U$ is dimensionless and $D$ has units $s^2/\text{time}$,
+\begin{equation}
+\partial_t f = \kappa(t)\, \RLO f + S(z,t)
+= \kappa(t)\,(z^2 f_{zz}+z f_z) + S.
+\label{eq:onuPDE}
+\end{equation}
+In $s=\ln z$,
+\[
+\partial_t f(s,t)=\kappa(t)\,\partial_{ss} f + S(s,t),\qquad
+\Sigma(t)=\int_0^t \kappa(\tau)\,\dd\tau.
+\]
+\textit{Units:} $\kappa$ in $s^2/\text{time}$; $U$ dimensionless; $\Sigma$ is accumulated variance in $s$.
+
+% =========================
+\section{Realm metrology asset: the spiral of realms}
+% =========================
+
+The same log-gauge that powers the emotional and physiological calculus also supports a \emph{spiral of realms}: a 64-bit octave horizon that classifies phenomena by effective length.
+
+\subsection{Effective characteristic length}
+Every experiment, space, or protocol carries several candidate lengths: body size, coherence length, Compton wavelength, light-travel distance over a time window, architectural spans, etc.
+
+\begin{definition}[Effective length]
+For a given configuration $\xi$ (materials, geometry, timescale) define
+\[
+L_{\text{eff}}(\xi)
+  := \min\bigl\{L_{\text{geom}},\,L_{\text{coh}},\,L_{\text{Comp}},\,c\,\Delta t,\dots\bigr\}.
+\]
+In words: the smallest relevant characteristic length sets the metrological realm.
+\end{definition}
+
+\subsection{Realm index on a 64-bit octave horizon}
+Fix a reference scale $L_\star$ (e.g.\ the human-scale metre or a chosen anchor in the diagram). Define the \emph{octave index}
+\begin{equation}
+n_{\text{realm}}(\xi)
+  := \left\lfloor \log_2\!\frac{L_\star}{L_{\text{eff}}(\xi)} \right\rfloor,
+\quad n_{\text{realm}}\in\{0,\dots,63\},
+\label{eq:nrealm}
+\end{equation}
+so that stepping one realm is halving or doubling the effective length.
+
+\paragraph{Interpretation.}
+Microscopic chemistry, nano-biophysics, architectural rooms, city-street acoustics, and light-travel horizons occupy different $n_{\text{realm}}$ bands but all share the same underlying $\ln L$ axis. The pedagogy lives wherever
+\[
+L_{\text{voice}},L_{\text{heart}},L_{\text{room}} \ll L_\star,
+\]
+placing most experiments in a nested band of $n_{\text{realm}}$ spanning a few dozen octaves between Compton and planetary scales.
+
+\subsection{Realm equation and asset tagging}
+For any dataset with a clear $L_{\text{eff}}$ we associate:
+
+\begin{equation}
+n_{\text{realm}}(x,t,v,m)
+  = \log_2\!\bigl(L_{\text{eff}}(x,t,v,m)/L_\bullet\bigr),
+\label{eq:realm_equation}
+\end{equation}
+where $(x,t,v,m)$ stands for spatial, temporal, velocity, and mass parameters and $L_\bullet$ is a convenient numerical reference. In practice we round or bin $n_{\text{realm}}$ into a discrete realm label and tag each asset:
+\[
+\text{MWƐN breath block} \mapsto n_{\text{realm}}\approx n_{\text{heart}},
+\quad
+\text{room IR test} \mapsto n_{\text{realm}}\approx n_{\text{room}},
+\quad
+\text{city loop} \mapsto n_{\text{realm}}\approx n_{\text{street}}.
+\]
+
+The spiral-of-realms diagram can be used as a visual companion, with wedges for nuclear, molecular, biological, architectural, orbital, and cosmological regimes; the pedagogy’s assets simply become highlighted nodes on that wheel.
+
+\figinclude{spiral_realms}{Spiral of Realms: 64-bit octave metrology horizon. Each realm corresponds to an octave band in $L_{\text{eff}}$, with emotional, biological, architectural, and cosmological assets tagged on the same log-length axis.}{fig:spiral_realms}
+
+\paragraph{Pedagogical payoff.}
+Students see:
+\begin{itemize}
+  \item the \emph{same} log-scale $s=\ln z$ used for HRV, voice, room IR, chemistry, and music, and
+  \item the \emph{same} variance-collapse criterion $\Delta\Var_s[\ln P]<0$ applied at different $n_{\text{realm}}$.
+\end{itemize}
+The spiral becomes a metrological atlas of where the protocol is acting in the wider universe.
+
+% =========================
+\section{Onu Emotional Topology}
+% =========================
+
+Psychological states are \emph{field activations}, not identities. Exit routes converge to the Jubilee Nexus (Pure Affirmation).
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=2.1cm, every node/.style={align=center}]
+    \node (center) {Jubilee Nexus:\\ \textbf{Pure Affirmation}};
+    \node[above left=of center]  (wisdom)     {Wisdom's Probe:\\ I Have Attunement};
+    \node[above right=of center] (compassion) {Compassion's Eye:\\ I Give Care};
+    \node[below left=of center]  (attune)     {Attunement's Motivation:\\ I Give Focus};
+    \node[below right=of center] (integrity)  {Integrity's Guard:\\ I Give Audit};
+    \node[below=3.8cm of center] (cocreate)   {Co-Creation's Direction:\\ I Give Action};
+    \draw[->] (wisdom) -- (center);
+    \draw[->] (compassion) -- (center);
+    \draw[->] (attune) -- (center);
+    \draw[->] (integrity) -- (center);
+    \draw[->] (cocreate) -- (center);
+\end{tikzpicture}
+\caption{Onu Emotional Topology: Axis of Affirmation.}
+\label{fig:topology}
+\end{figure}
+
+% =========================
+\section{Onu Healing Field Model}
+% =========================
+
+The model governs emotional potential via a log-heat equation in the $s=\ln z$ gauge:
+\begin{equation}
+\partial_t \ln P(s,t) = D(t)\,\partial_{ss} \ln P - U(t)\,\partial_s \ln P + S(t),
+\label{eq:logheat}
+\end{equation}
+with $U(t)$ (Urgency / dignity-mismatch), $D(t)$ (Diffusion of Insight), $S(t)$ (positive source). Target:
+\begin{equation}
+\int_0^\tau \Delta \Var_s[\ln P] \, \dd t < 0.
+\end{equation}
+
+% =========================
+\section{Dynamic Affirmation Route: The $U(t)$-Loop}
+% =========================
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=2.4cm, every node/.style={align=center, text width=2.2cm}]
+  \node (attune)  [draw,rounded corners, fill=blue!10] {1. Attunement Focus\\\small I give focus};
+  \node (audit)   [draw,rounded corners, fill=green!10, right=of attune] {2. Integrity Audit\\\small I give audit};
+  \node (probe)   [draw,rounded corners, fill=orange!10, below=of audit] {3. Wisdom Probe\\\small I know truth};
+  \node (action)  [draw,rounded corners, fill=red!10, left=of probe] {4. Compassion Action\\\small I give action};
+  \draw[->, very thick] (attune) -- (audit);
+  \draw[->, very thick] (audit) -- (probe);
+  \draw[->, very thick] (probe) -- (action);
+  \draw[->, very thick] (action) -- (attune);
+\end{tikzpicture}
+\caption{Dynamic Affirmation Route: The $U(t)$ Loop. The sequential passage through these four primary states drives the reduction of scale-variance in the emotional field.}
+\label{fig:u_t_loop}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cll}
+\toprule
+Phase & Affirmation & Function \\
+\midrule
+1. Attunement Focus & ``I have attunement to the highest state of this being. I give them gentle focus as an equal.'' & Exit psychopathy-field. \\
+2. Integrity Audit  & ``I have integrity in my place. I give honest audit to my hunger for elevation.''               & Exit egopathy-field. \\
+3. Wisdom Probe     & ``I know the clear, scaled truth of this pattern.''                                             & Variance reduction. \\
+4. Compassion Action& ``I give action now for shared relief and dignity.''                                             & Anchor in Jubilee. \\
+\bottomrule
+\end{tabular}
+\caption{Dynamic Affirmation Phases.}
+\end{table}
+
+% =========================
+\section{Resonance Booster (Phase 3)}
+% =========================
+Bind each insight to a gentle rhythmic somatic echo (tap/breath pulse). Model:
+\[
+D(t) = D_0 \bigl(1 + \alpha N_{\text{context}}\bigr) \bigl(1 + \beta_{\text{sync}}\bigr), \quad \beta_{\text{sync}} \approx 0.2.
+\]
+
+% =========================
+\section{Specialized Field Patches}
+% =========================
+
+\subsection{Internal Shame Patch}
+Self-directed dignity misweight (worth $\to 0$). Phase sequence: self-attunement $\to$ audit perfection contracts $\to$ booster-bound questions $\to$ somatic kindness.
+
+\subsection{Online Humiliation Patch}
+Persistent, non-local $S_{\text{ext}}$. Phase sequence: shield + breath sync $\to$ tag noise as \emph{Not My Ledger} $\to$ micro check-ins $\to$ delete/mute + journal ritual.
+
+\subsection{Family Drama Patch}
+Recursive, intimate $S_{\text{rec}}$ in $\mathcal{L}_{\text{family}}$. Phase sequence: wounded child-node attunement $\to$ rewrite loyalty contracts $\to$ generational probes $\to$ gentle boundaries.
+
+\subsection{Entangled Field Patch (Collective Shame)}
+For high-tension identity threat where $\mathcal{L}_{\text{self}}$ entangles with $\mathcal{L}_{\text{group}}$ (e.g., cultural backlash, team failure). The patch decouples ledgers while injecting solidarity, preventing variance amplification in the group field.
+
+\textbf{New Symbols:}
+- $S_{\text{rec}}$: Recurring group source (e.g., collective criticism).
+- $\mathcal{L}_{\text{group}}$: Shared group ledger (narratives, roles—support but don't submit).
+- $\mathcal{L}_{\text{self}}$: Sovereign self ledger (Jubilee-protected).
+
+\subsubsection{Phase 1 – Attunement Focus (Decouple Self from Group Narrative)}
+\textbf{Affirmation:}
+\begin{quote}
+``I have attunement to my highest state within the group. I give gentle focus to my worth as separate from the group's story.''
+\end{quote}
+
+\textbf{Inner Action:} Visualize self as a node connected but not fused to the group field. Acknowledge shared pain without absorbing as personal failure. Channel high $U(t)$ to shield self-node, damping entanglement inertia.
+
+\subsubsection{Phase 2 – Integrity Audit (Loyalty Contracts)}
+\textbf{Affirmation:}
+\begin{quote}
+``I have integrity in my place within the group. I give honest audit to contracts that tie my dignity to the group's fate.''
+\end{quote}
+
+\textbf{Inner Action:} Name bad contract: ``If the group is shamed, I must be shamed.'' Rewrite Jubilee-style: ``I can stand with the group without drowning in its story. My worth is Jubilee-given, not group-granted.'' Tag spike: ``This is group pattern, not self-identity.'' Adjusted error: $\text{Error} \times (1 - \lambda_{\text{tag}})$, $\lambda_{\text{tag}} \approx 0.7$. Grounds $U(t)$ to clarity.
+
+\subsubsection{Phase 3 – Wisdom Probe + Resonance Booster (Scale Critique)}
+\textbf{Affirmation:}
+\begin{quote}
+``I know the clear, scaled truth of this pattern. I have attunement to the group's real strengths beyond this threat.''
+\end{quote}
+
+\textbf{Inner Action (with Booster):} Start gentle rhythm (tap-tap-tap). Probe with bound questions:
+\begin{enumerate}
+\item What is valid critique vs.\ baseless attack? (tap/integrate)
+\item How has the group survived similar in history? (tap/integrate)
+\item What action builds us without blind defense? (tap/integrate)
+\end{enumerate}
+Booster compounds $D(t)$, smoothing collective spike across broader context. Log-variance drops as defense softens to correction.
+
+\subsubsection{Phase 4 – Compassion Action (Solidarity Injection)}
+\textbf{Affirmation:}
+\begin{quote}
+``I give action now for group dignity and shared relief. I have co-creation with the field as solidarity, not sacrifice.''
+\end{quote}
+
+\textbf{External Actions (Scaled to Intensity):}
+\begin{itemize}
+\item Gentle solidarity: Affirm group strengths publicly (if safe), e.g., ``Our core values endure this.''
+\item Constructive step: Contribute a small group-building act (e.g., organize dialogue).
+\item Ledger ritual: Journal: ``Today I decoupled while standing with the group.''
+\end{itemize}
+Injects positive $S_{\text{solidarity}}$, honoring field without overwrite.
+
+\textbf{Net Effect:} Decouples $\mathcal{L}_{\text{self}}$ from group shame while supporting $\mathcal{L}_{\text{group}}$. Repeated loops build resilience, turning collective threats into growth spirals.
+
+% =========================
+\section{Chemistry facet: kinetics, equilibrium, spectroscopy}
+% =========================
+
+\subsection{Positive-domain kinetics}
+First-order $A\!\to\!B$: $\dot c_A=-k_1 c_A$, so $c_A(t)=c_A(0)e^{-k_1 t}$ and $\tilde c_A=\ln c_A$ has $\dot{\tilde c_A}=-k_1$.  
+Second-order: $\dot c_A=-k_2 c_A^2 \Rightarrow \dot{\tilde c_A}=-k_2 c_A$. Differences are ratios: $c_A(t_2)\ominus c_A(t_1)$; use $\slog_\epsilon$ near zeros.
+
+\subsection{Equilibrium as ledger balance}
+\[
+K=\frac{\prod_i a_{P_i}^{\nu_i}}{\prod_j a_{R_j}^{\mu_j}},
+\quad
+\ln K=\sum_i \nu_i \ln a_{P_i}-\sum_j \mu_j \ln a_{R_j}
+=-\frac{\Delta G^\circ}{RT},\qquad
+\frac{\partial \ln K}{\partial T}=\frac{\Delta H^\circ}{R T^2}.
+\]
+
+\subsection{Spectroscopy in log-frequency}
+Let $P(f)$ be a power/absorbance spectrum; set $s=\ln f$, $a(s)=\ln P(e^s)$ and apply $\partial_\tau a=D\,\partial_{ss}a$ (bias toward multiplicative-band coherence).
+
+% =========================
+\section{Music \& Cymatics: harmonic ledger and morphogenesis}
+% =========================
+
+\subsection{Harmonic ledger and low-variance music}
+
+Equal-tempered pitches can be written as
+\[
+f_k = f_0\,2^{k/12},\qquad k\in\mathbb{Z},
+\]
+so that in the log-gauge $s=\ln f$ we have
+\[
+s_k = \ln f_k = \ln f_0 + \frac{k}{12}\ln 2.
+\]
+A semitone is a fixed step
+\[
+\Delta s_{\text{semi}} = \frac{\ln 2}{12},
+\]
+and any interval is an integer multiple of $\Delta s_{\text{semi}}$.
+For a perfect fifth, $r=3/2$:
+\[
+\ln\!\frac{3}{2} \approx 7\,\Delta s_{\text{semi}} \quad (\text{mod } \ln 2),
+\]
+so ``up a fifth'' is ``plus seven semitone-steps in $s$ (mod octave).''
+
+On a unit circle we assign to pitch index $k$ an angle
+\[
+\theta_k = \frac{2\pi k}{12},\qquad k\in\{0,\dots,11\},
+\]
+so the standard Circle of Fifths is the orbit of the map
+\[
+T_7(k) = k+7 \pmod{12}.
+\]
+In the Onu ledger picture this is a discrete linear flow on the $s$-lattice: repeated fifth steps walk a low-variance path through the spectrum, visiting a finite orbit while preserving the basic spectral envelope. Harmonic consonance corresponds to spectra where $P(f)$ is concentrated at such structured frequencies, yielding small $\Var_s[\ln P(f)]$.
+
+\subsection{Coltrane's mandala as a log-frequency atlas}
+
+Coltrane's tone mandala can be understood as stacking several such interval flows at once:
+
+\begin{itemize}
+\item fifth cycle: $T_7(k)=k+7 \pmod{12}$,
+\item major-third cycle: $T_4(k)=k+4 \pmod{12}$,
+\item minor-third cycle: $T_3(k)=k+3 \pmod{12}$.
+\end{itemize}
+
+Each $T_r$ defines an orbit of length $L_r = 12/\gcd(12,r)$ on the pitch circle. The mandala overlays these orbits as radial spokes and polygons, all anchored at the same center. In the $s$-gauge:
+
+\[
+s_{k+ r} - s_k = r\,\Delta s_{\text{semi}},
+\]
+so each map $T_r$ is a rigid translation on the discrete log lattice. The mandala is therefore a \emph{multi-orbit ledger} on $\ln f$:
+
+\begin{itemize}
+\item the fifth orbit ($r=7$) encodes functional harmony and tonal gravity;
+\item the major-third orbit ($r=4$) underlies Giant Steps–style symmetric changes;
+\item the minor-third orbit ($r=3$) supports diminished and altered fields.
+\end{itemize}
+
+Sequences that trace these orbits (or weave between them) keep the spectrum in a highly organized, repeating pattern of log-ratios. They \emph{rearrange} spectral mass without smearing it, which in our metric means:
+
+\[
+\Delta \Var_s[\ln P(f)] \approx 0 \quad \text{(pure mandala walk)}
+\]
+and
+\[
+\Delta \Var_s[\ln P(f)] < 0 \quad \text{(mandala walk with gentle damping/envelope focus)}.
+\]
+
+When a player ``moves around the mandala'' while sustaining breath and timbre, they are effectively executing a structured random walk on the $s$-lattice with strong constraints from $T_7$, $T_4$, and $T_3$. The pedagogy reads this as a musical analogue of the emotional protocol: a path that explores many apparent directions while keeping the underlying ledger tightly conserved.
+
+\figinclude{coltrane_mandala_onu}{Coltrane-style harmonic mandala in the Onu log-gauge. Pitches lie on a unit circle; fifth, major-third, and minor-third orbits form overlapping polygons, all living on the same discrete log-frequency lattice.}{fig:coltrane_onu}
+
+\subsection{Cymatic figures}
+
+Overtones satisfy $f_n=n f_1$, hence
+\[
+\ln f_n = \ln f_1 + \ln n.
+\]
+The overtone stack is thus another straight line in $s$ with step sizes $\ln n$. When a tone or chord sits on a mandala orbit, the overtone sets of its notes interlock into a dense but structured lattice in $\ln f$. Plates, membranes, and plasmas driven at those tones tend to settle into high-symmetry figures. We summarize this as
+
+\[
+\Delta \Var_s[\ln P(f)] < 0 \quad \Longleftrightarrow \quad
+\text{cymatic morphogenesis toward ordered, Coltrane-aligned patterns.}
+\]
+
+% =========================
+\section{MWƐN language: acoustic targets}
+% =========================
+
+Long vowels $\bar A,\bar O,\bar U$ act as sustained nuclei; consonants act as soft on/off boundaries; breath-coupled trochaic cadence $\approx 0.1~\text{Hz}$. The sustained vowels are \emph{low-$\Var_s$ acoustic anchors}, forcing the vocal tract into a stable configuration where the formant frequency ratios ($\ln F_2 \ominus \ln F_1$) maintain low variance.  
+
+Formant guides (soft):
+\begin{itemize}
+\item $\bar A$: F1 $\sim700$ Hz, F2 $\sim1100$ Hz,
+\item $\bar O$: F1 $\sim500$ Hz, F2 $\sim900$ Hz,
+\item $\bar U$: F1 $\sim350$ Hz, F2 $\sim700$ Hz.
+\end{itemize}
+The acoustic effective length $L_{\text{eff}} = c/f$ places MWƐN vowels in $n_{\text{realm}} \approx 0$–$2$, sitting on the same octave horizon as the Coltrane mandala tones used for breath and voice work.
+
+% =========================
+\section{Physiology asset: HRV, respiration, voice}
+% =========================
+
+\subsection{Signals and sampling}
+PPG (phone camera or finger sensor), mic for respiration/voice; optional belt/thermistor. Rates: PPG $\ge 30$ Hz (prefer $\ge 100$ Hz for HF/RSA), audio $\ge 16$ kHz, respiration $\ge 10$ Hz. Use synchronized markers (clap/beep).  
+\textit{Footnote:} If PPG $<100$ Hz, treat HF power as secondary.
+
+\subsection{Ledger-consistent time-domain}
+For inter-beat sequence $\{RR_i\}$, define $\Delta s_i=\ln RR_{i+1}-\ln RR_i$ and
+\[
+\RMSLR=\sqrt{\frac{1}{N-1}\sum_{i=1}^{N-1}(\Delta s_i)^2},
+\quad
+\mathrm{RMSSD}\approx \overline{RR}\cdot \RMSLR\quad\text{(small relative changes).}
+\]
+
+\subsection{Protocol (BASE/MWEN/POST)}
+\begin{enumerate}
+\item Baseline (2 min): quiet breath; record PPG, optional respiration; record a 10 s vowel.
+\item MWƐN (90 s): Ō--Ā--Ū, 5/5 s; record PPG, audio, respiration.
+\item Post (2 min): repeat baseline.
+\end{enumerate}
+
+\subsection{Primary outcomes and thresholds}
+\[
+\RMSLR\downarrow,\quad \text{LF peak near }0.1~\text{Hz}\uparrow,\quad
+\Var(\text{resp rate})\downarrow,\quad
+\Delta \Var_s\!\big[\ln S_{RR}\big]\!<0,\quad
+\Delta \Var_s\!\big[\ln P_{\text{voice}}\big]\!<0.
+\]
+Suggested prereg: H1 $\Delta\mathrm{RMSSD}\ge +5$ ms (or $\Delta\RMSLR\le -0.05$); H2 $\mathrm{LF}_{\text{post}}/\mathrm{LF}_{\text{base}}\ge 1.25$ with peak $0.10\pm 0.02$ Hz; H3 $\Var(\text{resp rate})\downarrow\ge 20\%$; H4 $\Delta \Var_s[\ln P_{\text{voice}}]\le -10\%$. Success if $\ge 2$ endpoints pass with QA clean.
+
+% =========================
+\section{Architecture asset: Coherence Pavilion \& Streetscape}
+% =========================
+
+\subsection{Acoustic kernel and target}
+From $\mathrm{IR}(t)$ compute $A(s)=\ln P_{IR}(e^s)$ with $s=\ln f$ and apply
+\[
+\partial_\tau A = D\,\partial_{ss}A.
+\]
+Target mid-band $RT_{60}\in[0.35,0.65]$ s and $\Delta \Var_s[\ln P_{IR}] \le -5\%$ after minimal treatment.
+
+\subsection{Worked IR example}
+Clap test (10 s) before/after curtain:
+\[
+RT_{60}: 0.65\to 0.48~\text{s},\qquad
+\Delta \Var_s[\ln P_{IR}]=-0.07\;(-7\%).
+\]
+\figinclude{ir_varlog_prepost_demo}{Log-power spectrum $A(s)=\ln P_{IR}(e^s)$ pre (dashed) and post (solid). Variance reduction mirrors voice/HRV settling.}{fig:ir_prepost}
+
+% =========================
+\section{Cross-facet correlation \& statistics}
+% =========================
+
+Collect pairs $\big(\Delta \Var_s[\ln P_{\text{voice}}],\ \Delta \Var_s[\ln P_{IR}]\big)$ and $\big(\Delta \Var_s[\ln S_{RR}],\ \Delta \Var_s[\ln P_{\text{voice}}]\big)$; expect positive correlation.  
+\figinclude{cross_facet_scatter_varlog}{Scatter of $\Delta \Var_s[\ln P_{\text{voice}}]$ vs.\ $\Delta \Var_s[\ln P_{IR}]$ across $n$ blocks.}{fig:scatter_crossfacet}
+
+% =========================
+\section{Live self-check (ingests \texttt{data/metrics.lua})}
+% =========================
+
+\noindent\textbf{Raw metrics}
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Metric & Value \\
+\midrule
+Var$_s$[ln $P_{\text{voice}}$] (pre)  & \Metric{varlog_voice_pre} \\
+Var$_s$[ln $P_{\text{voice}}$] (post) & \Metric{varlog_voice_post} \\
+$\Delta$ Var$_s$[ln $P_{\text{voice}}$] & \DeltaM{varlog_voice_pre}{varlog_voice_post} \\
+RMSSD (ms) pre $\to$ post & \Metric{rmssd_pre_ms} $\to$ \Metric{rmssd_post_ms} \\
+LF gain (post/base)       & \RatioM{lfv_post}{lfv_base} \\
+Resp var (post/base)      & \RatioM{resp_var_post}{resp_var_base} \\
+LF peak (Hz, post)        & \Metric{lf_peak_hz_post} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent\textbf{Endpoints \& state}\\
+\EndpointBadges
+
+% =========================
+\appendix
+% =========================
+
+\section{One-page self-run protocol}\label{app:run}
+\begin{enumerate}
+\item Pre (1.5 min): sliders $C_\ell,V,O$, valence, arousal; 60 s focus-dot (taps); 10 s vowel (Ā).
+\item Manipulation: MWƐN (90 s) \emph{or} apology$\to$hallelujah/cowabunga$\to$gratitude (60 s) \emph{or} levity jab (15 s).
+\item Post (1.5 min): repeat; 10 s vowel.
+\end{enumerate}
+Score if $\ge 2$ of $\{S\!\downarrow,\ C_\ell\!\uparrow,\ V\!\uparrow,\ \Var_s[\ln P]\!\downarrow\}$ improve.
+
+\section{CSV schemas (summary)}
+Individual blocks:
+\begin{verbatim}
+timestamp_iso8601,condition(MWEN|AHG|LEV),
+pre_C,post_C,pre_taps,post_taps,
+pre_V,post_V,pre_O,post_O,
+pre_valence,post_valence,pre_arousal,post_arousal,
+voice_pre_path,voice_post_path,epsilon_used,notes
+\end{verbatim}
+HRV/resp session:
+\begin{verbatim}
+timestamp_iso8601,phase(BASE|MWEN|POST),
+ppg_path,resp_path,audio_path,
+rmssd_ms,RMSLR,sdnn_ms,sd1_ms,sd2_ms,lf_peak_hz,
+hf_power_ms2,lf_power_ms2,
+rsa_method(COH|HF),rsa_value,
+resp_rate_bpm,resp_rate_var_bpm2,
+brs_proxy_unitless,qa_flag,qa_reason,
+ppg_sample_rate_hz,epsilon_used
+\end{verbatim}
+Architecture session:
+\begin{verbatim}
+timestamp_iso8601,phase(BASE_SPACE|MWEN_SPACE|POST_SPACE|STREET_LOOP),
+rt60_midband_s,laeq_dba,co2_ppm,airspeed_ms,tmrt_c,
+df_ledger,glare_1to5,ln_L_space,
+ppg_path,audio_path,gps_path,
+rmssd_ms,RMSLR,lf_peak_hz,c_rr_resp_at_fresp,
+varlog_voice_pre,varlog_voice_post,
+varlog_IR_pre,varlog_IR_post,
+qa_flag,qa_reason,epsilon_used,notes
+\end{verbatim}
+
+\section{Symbol table}
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Symbol & Meaning \\
+\midrule
+$\I$ & inversion $x\mapsto x^{-1}$ \\
+$\ominus$ & Onu difference $a b^{-1}$ \\
+$E$ & Euler scale $z\partial_z$ \\
+$\RLO$ & scale Laplacian $(z\partial_z)^2=\partial_{ss}$ \\
+$U(t)$ & urgency (dimensionless) \\
+$D$ & diffusivity in $s$-gauge ($s^2/\text{time}$) \\
+$S$ & source term \\
+$s$ & $\ln z$ (log-amplitude or log-frequency) \\
+$\mathcal{L}$ & product ledger (invariant) \\
+RMSLR & HRV index (ledger-consistent) \\
+$\mathcal{C}_{RR,\mathrm{resp}}$ & RSA coherence (primary) \\
+$\Var_s[\ln P]$ & log-variance on $s=\ln f$ axis \\
+$RT_{60}$ & reverberation time to 60 dB decay \\
+$L_{\text{eff}}$ & effective characteristic length for a configuration \\
+$n_{\text{realm}}$ & octave-based realm index on the 64-bit horizon \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textit{License/ethics:} Educational protocol; participation voluntary; avoid breath practices that cause dizziness; benign chemistry at microscale; anonymize and share data only with consent; follow local codes. \\
+\textit{Disclaimer:} General information only; not medical or financial advice.
+
+\end{document}
+\DeclareMathOperator{\RMSLR}{RMSLR}
+
+% ---------- Tight lists ----------
+\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
+
+% ---------- Figure placeholder helper ----------
+\makeatletter
+\newcommand{\missingfig}[1]{%
+  \fbox{%
+    \begin{minipage}[c][5cm][c]{0.85\linewidth}
+      \centering \vspace{0.5em}
+      \textbf{Figure placeholder}\\[0.3em]
+      {#1}\\[0.3em]
+      \small (Place fig/#1.pdf or fig/#1.png to replace)
+    \end{minipage}%
+  }%
+}
+\newcommand{\figinclude}[3]{%
+  \begin{figure}[h]
+    \centering
+    \IfFileExists{#1.pdf}{\includegraphics[width=0.85\linewidth]{#1.pdf}}{%
+      \IfFileExists{#1.png}{\includegraphics[width=0.85\linewidth]{#1.png}}{%
+        \missingfig{#1}%
+      }%
+    }
+    \caption{#2}
+    \label{#3}
+  \end{figure}
+}
+\makeatother
+
+% ---------- Badges / “state” ----------
+\newcommand{\badgePass}{\colorbox{green!15}{\textcolor{green!50!black}{\(\checkmark\) PASS}}}
+\newcommand{\badgeFail}{\colorbox{red!10}{\textcolor{red!60!black}{\(\times\) FAIL}}}
+\newcommand{\stateCowabunga}{\colorbox{blue!10}{\Large \textbf{STATE: COWABUNGA}}}
+\newcommand{\stateRetry}{\colorbox{orange!10}{\Large \textbf{STATE: RETUNE}}}
+
+% ---------- Lua “self-check” brain ----------
+\begin{luacode*}
+local ok,t = pcall(dofile,"data/metrics.lua")
+metrics = ok and type(t)=="table" and t or {
+  varlog_voice_pre  = 0.250,
+  varlog_voice_post = 0.180,
+  varlog_rr_pre     = 0.140,
+  varlog_rr_post    = 0.120,
+  rmssd_pre_ms      = 28.0,
+  rmssd_post_ms     = 35.5,
+  lfv_base          = 1.00,
+  lfv_post          = 1.35,
+  lf_peak_hz_post   = 0.10,
+  resp_var_base     = 1.00,
+  resp_var_post     = 0.72,
+}
+
+local function num(x) return tonumber(x) end
+function get(k,default)
+  local v = metrics[k]; if v==nil then return default or "NA" end
+  return string.format("%.3f", v)
+end
+function delta(a,b)
+  local av = num(metrics[a]); local bv = num(metrics[b])
+  if av and bv then return string.format("%.3f", bv - av) else return "NA" end
+end
+function ratio(numK,denK)
+  local den = num(metrics[denK])
+  local numv= num(metrics[numK])
+  if den and numv and den~=0 then return string.format("%.3f", numv/den) else return "NA" end
+end
 function passbool(expr) tex.print(expr and "\\badgePass" or "\\badgeFail") end
 
 function endpoints_summary()
