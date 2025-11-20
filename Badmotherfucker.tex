@@ -1,15 +1,15 @@
 import numpy as np
-from scipy.integrate import quad, dblquad
+from scipy.integrate import quad
 from scipy.special import j0
 
-def integrand(y, t):
-    return np.arctan((1-y**2)/(2*y)) * j0(np.pi * t) / (1 + t)
+def inner(t):
+    g = lambda y: y**(t-1.0) * np.arctan((2.0*y*y)/(5.0 - y*y))
+    val, _ = quad(g, 0.0, 1.0, epsabs=1e-10, epsrel=1e-10, limit=300)
+    return val
 
-def I_reg():
-    result, error = dblquad(integrand, 0, np.inf, lambda t: 0, lambda t: 1,
-                             epsabs=1e-8, epsrel=1e-8)
-    return -result  # Note the negative sign from the derivation
+def outer(t):
+    return - j0(np.pi*t) * inner(t)
 
-# Evaluate the integral
-I_reg_value, I_reg_error = I_reg()
-print(f"I_reg ≈ {I_reg_value:.8f} ± {I_reg_error:.2e}")
+T = 40.0
+main, e1 = quad(outer, 0.0, T, epsabs=1e-10, epsrel=1e-10, limit=500)
+print("I_reg (ledger, truncated) ≈", main)
