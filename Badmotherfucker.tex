@@ -1,0 +1,15 @@
+import numpy as np
+from scipy.integrate import quad, dblquad
+from scipy.special import j0
+
+def integrand(y, t):
+    return np.arctan((1-y**2)/(2*y)) * j0(np.pi * t) / (1 + t)
+
+def I_reg():
+    result, error = dblquad(integrand, 0, np.inf, lambda t: 0, lambda t: 1,
+                             epsabs=1e-8, epsrel=1e-8)
+    return -result  # Note the negative sign from the derivation
+
+# Evaluate the integral
+I_reg_value, I_reg_error = I_reg()
+print(f"I_reg ≈ {I_reg_value:.8f} ± {I_reg_error:.2e}")
