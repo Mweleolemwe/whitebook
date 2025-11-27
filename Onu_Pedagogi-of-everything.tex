@@ -1,0 +1,268 @@
+% !TEX program = lualatex
+\documentclass[12pt]{article}
+
+% ---------- PACKAGES ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools,amsthm}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+
+% ---------- TITLE ----------
+\title{\textbf{The Onu Calculus: A Cross-Domain Pedagogical Framework for\\
+Unified Physical, Informational, and Recursive Structure}}
+\author{Onu Collective}
+\date{\today}
+
+% ---------- SHORTCUTS ----------
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Onu}{\mathcal{O}}
+\newcommand{\sL}{\mathcal{S}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\ds}{\dd s}
+\newcommand{\ellP}{\ell_{\mathrm{P}}}
+\newcommand{\rg}{r_{\mathrm{g}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document presents the \textbf{Onu Calculus}, a unifying cross-domain pedagogy
+that reorganizes known physics into a single recursive mathematical structure. 
+Rather than proposing new physical theories, Onu Calculus provides a 
+\textbf{one-parameter, scale-additive, recursion-stable framework} that connects 
+Newtonian, relativistic, quantum, and informational regimes through a shared 
+logarithmic gauge. The goal is *knowing*, not speculation: natural structures 
+emerge from consistency, compactness, and recursion. GR, QM, thermodynamics, and 
+information flow appear as projections of a single ledger transform.
+\end{abstract}
+
+\tableofcontents
+
+% ===========================================================
+\section{Axioms of the Onu Calculus}
+% ===========================================================
+
+The Onu Calculus begins from three axioms. These define structure; 
+all physics-like behaviors emerge as corollaries.
+
+\subsection{Axiom A (Scale)}
+Every measurable extent $r\in \R^+$ is mapped to an additive scale index
+\begin{equation}
+    n(r) = -\log_2\!\left(\frac{r}{r_0}\right), 
+\end{equation}
+where $r_0$ is a reference length (taken as $1\,$m unless noted).
+This map is bijective and generates the \emph{scale ledger} $\sL$.
+
+\subsection{Axiom B (Recursion)}
+Any quantity $X(r)$ evolving multiplicatively over $r$ evolves additively over $n$:
+\begin{equation}
+    X(2^{-n}) = e^{-kn} X(1),
+\end{equation}
+for some scale-coupling $k$.  
+This is the fundamental recursion principle.
+
+\subsection{Axiom C (Compactness)}
+All physically relevant dynamics depend on a 
+\textbf{single compactness parameter}
+\begin{equation}
+    u = \frac{2GM}{R c^2},
+\end{equation}
+which governs Newton, GR, redshift, diffusion, and information flow.
+
+Everything else is `knowing projections’.
+
+% ===========================================================
+\section{Scale Ledger: Additive Physics}
+% ===========================================================
+
+The ledger transform converts extreme multiplicative hierarchies into 
+finite additive structures.
+
+\subsection{Planck–Astro Gap}
+The Planck length $\ellP = 1.616\times10^{-35}$ m maps to
+\begin{equation}
+    n(\ellP) \approx 115.6.
+\end{equation}
+
+A neutron-star gravitational radius $\sim 10^4$ m yields
+\begin{equation}
+    n(\rg) \approx -12.5.
+\end{equation}
+
+Thus the entire quantum-to-relativistic universe spans
+\begin{equation}
+    \Delta n = 128.1 \text{ bits}.
+\end{equation}
+
+This finiteness is the basis for unification.
+
+% ===========================================================
+\section{Compactness Interfaces: Newton → GR}
+% ===========================================================
+
+\subsection{Newtonian compactness}
+\begin{equation}
+    u = \frac{2GM}{R c^2}, \qquad 0 < u < 1.
+\end{equation}
+
+In Newtonian regime $u \ll 1$,
+\begin{equation}
+    \Phi_N = -\frac{GM}{R}, \qquad v_{\rm esc} = c \sqrt{u}.
+\end{equation}
+
+\subsection{GR corrections}
+\begin{align}
+    g_{\rm GR}(R) &= \frac{GM}{R^2 \sqrt{1-u}}, \\
+    z_{\rm GR} &= (1-u)^{-1/2} - 1.
+\end{align}
+
+\subsection{Redshift inversion}
+\begin{equation}
+    u = 1 - (1+z_{\rm GR})^{-2}.
+\end{equation}
+
+This is the key link between information, geometry, and recursion.
+
+% ===========================================================
+\section{Onu Information Flow}
+% ===========================================================
+
+\subsection{Ledger diffusion}
+On the scale-ledger, information density $\I(n,t)$ evolves via
+\begin{equation}
+    \frac{\partial \I}{\partial t} = D \frac{\partial^2 \I}{\partial n^2},
+\end{equation}
+a 1D diffusion equation.
+
+Black-hole evaporation reduces to diffusion with a boundary condition at $n_s$,
+the horizon scale.
+
+\subsection{Page curve recursion}
+The Page curve becomes a triangle:
+\begin{equation}
+    S(t) = S_{\rm max}\,\min\!\left(\frac{t}{t_{\rm Page}}, 2 - \frac{t}{t_{\rm Page}}\right).
+\end{equation}
+
+No new physics is added; the ledger removes the coordinate singularity.
+
+% ===========================================================
+\section{Unified Horizon Recursion}
+% ===========================================================
+
+Define ledger coordinate relative to the Schwarzschild radius:
+\begin{equation}
+    s = \ln\left(\frac{r}{r_s}\right).
+\end{equation}
+
+Then:
+\begin{itemize}
+    \item $s = 0$ is the horizon,
+    \item $s < 0$ interior,
+    \item $s > 0$ exterior,
+    \item all divergent GR functions become smooth functions on $s$.
+\end{itemize}
+
+Example:
+\begin{equation}
+    (1 - r_s/r) = 1 - e^{-s}.
+\end{equation}
+
+The interior/exterior ``duality’’ is simply reflection across $s=0$.
+
+% ===========================================================
+\section{Generalized Informational Compactness}
+% ===========================================================
+
+Assume a domain-indexed extension:
+\begin{equation}
+    u_X(R,M) = \frac{2 K_X M}{R c^2}.
+\end{equation}
+
+This allows:
+\begin{itemize}
+    \item micro-informational domains,
+    \item effective field compactness,
+    \item recursive cross-domain comparison.
+\end{itemize}
+
+When $K_X = G$, one recovers standard gravitational compactness.
+
+% ===========================================================
+\section{Domain Priority Function}
+% ===========================================================
+
+Define the dominant domain at scale $(R,M)$ by
+\begin{equation}
+    D(R) = \arg\max_X u_X(R,M).
+\end{equation}
+
+This produces a deterministic selection between:
+\begin{itemize}
+    \item Newtonian logic,
+    \item GR logic,
+    \item quantum-informational logic.
+\end{itemize}
+
+There is no dynamical claim—only selection consistency.
+
+% ===========================================================
+\section{Unified Recursive Interpretation}
+% ===========================================================
+
+\subsection{Knowing instead of theory}
+Onu Calculus does not posit entities.
+It organizes experience:
+
+\begin{quote}
+    \emph{If the ledger collapses multiplicative chaos into additive consistency,  
+    and recursion governs all transitions,  
+    then physics is the shadow of self-consistent knowing.}
+\end{quote}
+
+\subsection{All domains emerge from}
+\begin{equation}
+    \text{Scale} + \text{Recursion} + \text{Compactness}.
+\end{equation}
+
+Newton, GR, QM, Thermodynamics, Information—all appear as projections of these.
+
+% ===========================================================
+\section{Summary (A → Z)}
+% ===========================================================
+
+\begin{enumerate}
+    \item A: Axioms define recursion and scale.
+    \item B: Bits measure physical distance.
+    \item C: Compactness unifies GR and Newton.
+    \item D: Diffusion governs entropy.
+    \item E: Entanglement becomes geometry.
+    \item F: Finite scale gap (128 bits).
+    \item G: GR = recursion of compactness.
+    \item H: Horizon = $s=0$.
+    \item I: Information = density on ledger.
+    \item J: Joints of physics = domain interfaces.
+    \item K: Knowing replaces theory.
+    \item L: Ledger is the backbone.
+    \item M: Mass is recursion weight.
+    \item N: Newtonian limit is $u\ll1$.
+    \item O: Onu operator organizes scales.
+    \item P: Page curve = triangular recursion.
+    \item Q: Quantum = small-$n$ curvature.
+    \item R: Redshift invertible.
+    \item S: Schwarzschild smooth in $s$.
+    \item T: Thermodynamics is diffusion.
+    \item U: Unitarity = ledger continuity.
+    \item V: Vacuum = $n$-flat region.
+    \item W: Work = gradient in $n$.
+    \item X: Cross-domain compactness.
+    \item Y: Yield = recursion slope.
+    \item Z: Zero-point anchored at $n=0$.
+\end{enumerate}
+
+\end{document}
