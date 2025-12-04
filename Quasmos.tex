@@ -1,52 +1,202 @@
 % !TEX program = lualatex
 \documentclass[11pt]{article}
 
-% ── Packages ───────────────────────────────────────────────────────────────────
+% ---------- PACKAGES ----------
 \usepackage[margin=1in]{geometry}
 \usepackage{microtype}
-\usepackage{amsmath,amssymb,mathtools,bm}
-\usepackage{amsthm}
-\usepackage{physics}
-\usepackage{enumitem}
-\usepackage{booktabs}
-\usepackage{xcolor}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
-\usepackage{cleveref}
+\usepackage{enumitem}
 \usepackage{listings}
+\usepackage{xcolor}
+\usepackage{libertinus}
+\usepackage[capitalize,nameinlink]{cleveref}
+\usepackage[backend=biber,style=phys]{biblatex}
+\addbibresource{references.bib}
 
-% ── Setup ──────────────────────────────────────────────────────────────────────
+% ---------- TYPOGRAPHY ----------
+\linespread{1.05}
+\numberwithin{equation}{section} % keeps equations organized by section
+
+% ---------- COLORS & LISTINGS ----------
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codegreen}{rgb}{0,0.6,0}
 \lstset{
-  basicstyle=\ttfamily\small,
-  frame=single,
-  columns=fullflexible,
-  showstringspaces=false,
-  keywordstyle=\color{blue!70!black},
-  commentstyle=\color{green!40!black},
-  stringstyle=\color{orange!60!black},
-  numbers=left,
-  numbersep=6pt,
-  xleftmargin=1.2em
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    numbers=left,
+    numberstyle=\tiny\color{codegray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    stringstyle=\color{codegray},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
 }
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{remark}{Remark}
-\newtheorem{definition}{Definition}
-\newtheorem{proposition}{Proposition}
+% ---------- MATH OPERATORS ----------
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\logvar}{Var_{\log}}
 
-% ── Notation ───────────────────────────────────────────────────────────────────
+% ---------- SHORTCUTS ----------
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\Rpos}{\mathbb{R}_{>0}}
-\newcommand{\onu}{\mathcal{O}}
-\newcommand{\cL}{\mathcal{L}}
-\newcommand{\nref}[2]{n_{#1}\!\left(#2\right)}         % ledger coordinate
-\newcommand{\Varlog}{\operatorname{Var}_{\log}}       % log-variance
+\newcommand{\Onu}{\mathcal{O}} % Onu gauge symbol if you need it explicitly
+\newcommand{\sL}{\mathcal{S}}
+\newcommand{\nref}[2]{n_{#1}\!\left(#2\right)}
+\newcommand{\tauf}{\bm{\tau}}
+\newcommand{\ellp}{\ell_p}
+\newcommand{\ellz}{\ell_{(0)}}
+\newcommand{\vc}{v_c}
+\newcommand{\Quasmos}{\textbf{Quasmos}}
+\newcommand{\TTC}{\textbf{TTC}}
+\newcommand{\Maat}{\textbf{Ma'at}}
 
-% ── Title block ────────────────────────────────────────────────────────────────
-\title{\textbf{The Quasmos: A Unified Field Theory of Time--Topology,\\
+% ---------- THEOREM STYLES ----------
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+% ---------- TITLE ----------
+\title{\textbf{The Quasmos: A Unified Field Theory of Time-Topology,\\
 Onu Recursive Gauge, and Atomic Stability}}
-\author{Yay / Onu Collective}
-\date{December 4, 2025}
+\author{Yay / Onu Collective \\[4pt]
+\small Independent Research Group, 2025}
+\date{\today}
+
+% ===========================================================
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose the \Quasmos\ framework, describing the universe as a continuous, viscous log-domain ledger of time-density ($\tauf$). The theory aims to unify gravitational, fluid, and atomic dynamics via a logarithmic recursion gauge (Onu). Time-Topology Cosmology (TTC) replaces dark matter with gradients in $\tauf$, while the Ma’at atomic model arises as a stable variance minimum in the same field. The sliding Planck threshold $\ellp(S) = \ellz\,\delta^S$ is introduced to ensure scale continuity from cosmic to quantum domains.
+\end{abstract}
+
+% ===========================================================
+\section{Introduction}
+% This section is currently missing conceptually; add motivation + context here.
+The standard cosmological and quantum frameworks introduce dark matter and discrete quantum postulates to explain galactic rotation, structure formation, and atomic stability. In this work we explore an alternative approach in which a single time-density field $\tauf$ and its logarithmic structure underlie both gravitational and atomic phenomena.
+
+We outline the Onu logarithmic gauge, apply it at galactic scales via Time-Topology Cosmology (\TTC), and introduce the Ma’at atomic configuration as a variance-minimizing structure in the same field. A scale-dependent Planck threshold is then used to connect these regimes continuously.
+
+% Outline of the paper (optional):
+% (i) Onu log-linear recursion, (ii) M\"obius gauge equivalence,
+% (iii) TTC macro-scale law, (iv) Ma'at atomic stability,
+% (v) sliding Planck threshold and unification.
+
+% ===========================================================
+\section{The Onu Triad: Log-Linear Recursion}\label{sec:onu-triad}
+The Onu gauge posits that complex dynamics, traditionally described by curvature or non-linear terms, simplify to linear relations in a logarithmic domain
+\begin{equation}
+    s = \ln\!\left(\frac{r}{r_s}\right),
+\end{equation}
+so that
+\begin{equation}
+    \ln X(s) = \ln X_0 + \kappa s.
+\end{equation}
+This is used to unify:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Gravity:} $\ln u(s) \propto -s$ (horizon gauge),
+    \item \textbf{Fluid flow:} $\ln v(s) \propto 2\beta s$ (Hawking--Squeeze),
+    \item \textbf{Arithmetic:} $\Rpos$ as a twisted M\"obius ledger on $\nref{r_0}{r}$.
+\end{enumerate}
+
+% Consider adding a precise definition of the ledger n_{r_0}(r) here.
+
+% ===========================================================
+\section{M\"obius Gauge Equivalence}\label{sec:mobius}
+\begin{theorem}[Onu M\"obius Gauge Equivalence]
+For any $r_0, r_0' \in \Rpos$,
+\begin{equation}
+    \nref{r_0'}{r} = \nref{r_0}{r} + C(r_0', r_0),
+\end{equation}
+where $C$ is constant in $r$. Ledger differences are invariant: $\Delta n$ is gauge-independent.
+\end{theorem}
+
+% You may want to add at least a short proof sketch or intuition:
+% \begin{proof}[Sketch of proof]
+% ...
+% \end{proof}
+
+% ===========================================================
+\section{Macro-Scale: Time-Topology Cosmology (\TTC)}\label{sec:ttc}
+In \TTC, gravitational acceleration arises from the log-gradient of $\tauf$:
+\begin{equation}
+    \bm{a}(r) = -c^2 \nabla \ln \tauf(r), 
+    \qquad 
+    \vc(r) = \sqrt{|\bm{a}(r)|\,r}.
+\end{equation}
+Properly chosen profiles of $\tauf(r)$ yield flat rotation curves without postulating dark matter.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{rotation_curve.pdf}
+    \caption{Example galactic rotation curve from the Onu-gradient law.}
+    \label{fig:rotation-curve}
+\end{figure}
+
+% Consider adding a concrete example of tau_tau(r) and comparing to an observed galaxy.
+
+% ===========================================================
+\section{Micro-Scale: Ma’at Atomic Stability}\label{sec:maat}
+Matter corresponds to a local minimum of the variance of $\tauf$:
+\begin{equation}
+    \boxed{\logvar(C) = V_0 + k(1-C)}, 
+    \qquad
+    V_0 \approx 0.170,\quad k \approx 0.10.
+\end{equation}
+This defines the Ma’at atom: a stable 8-horn topology representing minimal entropy in the time-field.
+
+% Here it would help to (i) define C precisely, and (ii) show how the 8-horn topology emerges.
+
+% ===========================================================
+\section{Unification: The Sliding Planck Threshold}\label{sec:planck}
+We introduce a scale-dependent Planck threshold
+\begin{equation}
+    \ellp(S) = \ellz \cdot \delta^S, 
+    \qquad 0<\delta<1,
+\end{equation}
+to enforce a continuous scale bridge from cosmic gradients to atomic stability.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tau_field_continuity.pdf}
+    \caption{Schematic of $\tauf$ continuity from cosmic to atomic domains.}
+    \label{fig:tau-continuity}
+\end{figure}
+
+% ===========================================================
+\section{Discussion and Outlook}\label{sec:discussion}
+% This is the other big missing piece for a "finished" paper.
+We have sketched a unified view in which a single time-density field $\tauf$ underlies both galactic dynamics (via \TTC) and atomic stability (via the Ma’at configuration). Several open questions remain:
+\begin{itemize}
+    \item Deriving \TTC\ rotation curves that fit specific galaxies quantitatively.
+    \item Connecting the Ma’at variance minimum to known atomic spectra or coupling constants.
+    \item Embedding the Onu gauge in or alongside general relativity and quantum field theory.
+\end{itemize}
+Future work will focus on constructing explicit solutions for $\tauf$ at multiple scales and confronting the resulting predictions with observational and experimental data.
+
+% ===========================================================
+\appendix
+
+\section{Appendix A: TTC Simulation Snippet (\texttt{ttc\_sim.py})}
+\lstinputlisting[caption={TTC Onu-gradient law implementation}, label={lst:ttc}]{ttc_sim.py}
+
+% ===========================================================
+\printbibliography
+
+\end{document}
 
 \begin{document}
 \maketitle
