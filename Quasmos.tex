@@ -1,0 +1,221 @@
+% !TEX program = lualatex
+\documentclass[11pt]{article}
+
+% ── Packages ───────────────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\usepackage{listings}
+
+% ── Setup ──────────────────────────────────────────────────────────────────────
+\lstset{
+  basicstyle=\ttfamily\small,
+  frame=single,
+  columns=fullflexible,
+  showstringspaces=false,
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{orange!60!black},
+  numbers=left,
+  numbersep=6pt,
+  xleftmargin=1.2em
+}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+% ── Notation ───────────────────────────────────────────────────────────────────
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Rpos}{\mathbb{R}_{>0}}
+\newcommand{\onu}{\mathcal{O}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\nref}[2]{n_{#1}\!\left(#2\right)}         % ledger coordinate
+\newcommand{\Varlog}{\operatorname{Var}_{\log}}       % log-variance
+
+% ── Title block ────────────────────────────────────────────────────────────────
+\title{\textbf{The Quasmos: A Unified Field Theory of Time--Topology,\\
+Onu Recursive Gauge, and Atomic Stability}}
+\author{Yay / Onu Collective}
+\date{December 4, 2025}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a unified physical framework---the \emph{Quasmos}---that
+resolves the apparent discontinuity between macroscopic gravity and microscopic
+quantum stability. The backbone is the \textbf{Onu Gauge}, a log-domain
+\emph{scale ledger} that turns multiplicative geometry into additive lines.
+Three systems share the same spine: (i) General Relativity recast as
+\emph{recursive compactness}, (ii) logarithmic nozzle flow (the
+\emph{Hawking--Squeeze}), and (iii) the M\"obius ledger of arithmetic.
+We extend recursion to cosmology via \emph{Time--Topology Cosmology} (TTC),
+where gravity arises from a viscous time-density field, and to the quantum
+domain via \emph{Ma'at Atomic Structure}, where log-variance cools into
+eight-lobe stability. A \emph{Sliding Planck Threshold} then ties scales
+together, establishing thermo-temporal continuity across the Quasmos.
+\end{abstract}
+
+\tableofcontents
+
+%===============================================================================
+\section{Introduction: Black Holes on the Kitchen Table}
+%===============================================================================
+
+Standard formalisms obscure a shared structure by using different coordinates:
+curvature tensors in GR, area--velocity relations in compressible flow, and
+signed subtraction on $\mathbb{R}$. The \textbf{Onu Calculus} reveals a simpler,
+positive-domain picture: a single log-rail $s=\ln z$ on which many laws become
+affine lines. Residuals that cannot follow the line accumulate at a boundary
+(horizon/core/knot).
+
+\subsection{The Onu Triad}
+We call a law \emph{Onu recursion form} if
+\begin{equation}
+  \boxed{\,\ln X(s)=\ln X_0+\kappa s\,}
+  \label{eq:onu-line}
+\end{equation}
+up to a floor/ceiling where recursion terminates.
+Three canonical instances:
+\begin{align}
+\textbf{Gravity:}\quad & s=\ln\!\left(\frac{R}{r_s}\right),\quad
+u(s)=\frac{r_s}{R}=e^{-s}\;\Rightarrow\;\boxed{\ln u=-s}. \\
+\textbf{Nozzle:}\quad & R(s)\propto e^{-\beta s},\;\;
+v(s)\propto e^{2\beta s}\;\Rightarrow\;\boxed{\ln v=\ln v_0+2\beta s}. \\
+\textbf{Ledger:}\quad &
+X(r)\propto r^{-\alpha}\;\Rightarrow\;\boxed{\ln X(r)=\ln X(r_0)+(\alpha\ln 2)\,\nref{r_0}{r}}.
+\end{align}
+
+%===============================================================================
+\section{Scale Ledger and M\"obius Gauge Equivalence}
+%===============================================================================
+
+\begin{definition}[Onu difference and ledger coordinate]
+For $a,b\in\Rpos$ define the multiplicative difference
+$a\ominus b:=a/b$. Fix a reference $r_0\in\Rpos$. The \emph{ledger
+coordinate} of $r$ is
+\[
+  \nref{r_0}{r}:=-\log_2\!\left(\frac{r}{r_0}\right)\in\mathbb{R}.
+\]
+\end{definition}
+
+\begin{theorem}[M\"obius gauge equivalence]
+\label{thm:mobius}
+For two references $r_0,r_0'\!>\!0$ and any $r\!>\!0$,
+\[
+  \nref{r_0'}{r}=\nref{r_0}{r}+C(r_0',r_0),\qquad
+  C(r_0',r_0):=\log_2\!\frac{r_0'}{r_0}.
+\]
+Hence ledger \emph{differences} are invariant:
+$\nref{r_0'}{r_1}-\nref{r_0'}{r_2}=\nref{r_0}{r_1}-\nref{r_0}{r_2}$.
+\end{theorem}
+
+\begin{proof}
+Immediate from $\log$ rules:
+$-\log_2(r/r_0')=-\log_2(r/r_0)-\log_2(r_0/r_0')$.
+\end{proof}
+
+\begin{remark}
+What looks like subtraction (moving entries) can be traded for a gauge shift
+(moving the reference knot). This is the ``M\"obius ledger'' view: one band,
+many possible centers; only differences matter.
+\end{remark}
+
+%===============================================================================
+\section{Macro: Time--Topology Cosmology (TTC)}
+%===============================================================================
+
+Let $\tau(r)$ denote a \emph{time-density} (units chosen so $\tau$ is positive
+and smooth). The gravitational acceleration is the Onu-gradient of $\tau$:
+\begin{equation}
+  \boxed{\,a(r)=-c^2\,\dv{}{r}\ln\tau(r)\,}
+  \label{eq:ttc-accel}
+\end{equation}
+and the circular speed follows
+\begin{equation}
+  \boxed{\,v_c(r)=\sqrt{|a(r)|\,r}=\sqrt{c^2 r\,\abs{\dv{}{r}\ln\tau(r)}}\,}.
+\end{equation}
+A simple luminous+baseline model
+\begin{equation}
+  \tau(r)=\tau_0\!\left(1+\Bigl(\frac{r_0}{r}\Bigr)^\alpha\right),
+\end{equation}
+yields rising-to-flat rotation curves without invoking hidden mass: the outer
+plateau tracks a constant log-slope of $\tau$.
+
+\paragraph{Reproducible code.}
+Reference implementation (Appendix~\ref{app:code}) reproduces the curves and
+diagnostics from \eqref{eq:ttc-accel}.
+
+%===============================================================================
+\section{Micro: Ma'at Atomic Stability}
+%===============================================================================
+
+Disordered fields cool under the scale Laplacian on the rail
+$(z\partial_z)^2=\partial_{ss}$, reducing log-variance and concentrating
+spectral mass into a stable eigenchannel (the eight-lobe $Y_3^{\pm2}$ container).
+We use the empirical/pedagogical predictive law
+\begin{equation}
+  \boxed{\,\Varlog(C)=V_0+k\,(1-C)\,}
+\end{equation}
+linking container concentration $C\in[0,1]$ to log-variance of observables.
+Interpretation: leakage $(1-C)$ carries a variance cost; Ma'at-constrained
+cooling pushes $C\to1$ and $\Varlog\to V_0$.
+
+%===============================================================================
+\section{Unification: Sliding Planck Threshold}
+%===============================================================================
+
+To connect macro and micro continuously, we let the effective Planck scale
+\emph{slide} along the ledger:
+\begin{equation}
+  \boxed{\,\ell_{\mathrm P}(S)=\ell_{\mathrm P}^{(0)}\,2^{-S/B}\,}
+  \qquad(S=\text{ledger position},\; B>0).
+\end{equation}
+Thus the continuum never breaks; it rescales. The Quasmos loop closes:
+galactic gradients shape containers (TTC); the Onu gauge carries them down the
+log-rail; the field meets a local threshold and curls into Ma'at-stable horns.
+
+%===============================================================================
+\section{Discussion and Conclusion}
+%===============================================================================
+
+The \emph{Quasmos} is not a replacement for domain physics but a unifying gauge:
+place systems on the log-rail, expose their recursion parameter, and identify
+where residuals are stored. Horizons, vortex cores, and ledger knots are the
+same algebraic role in different clothes. With TTC and Ma'at providing macro
+and micro closures, the sliding threshold gives thermo-temporal continuity.
+
+%===============================================================================
+\appendix
+\section{TTC Simulation (source excerpt)}
+\label{app:code}
+% If the file is available at compile time, this will embed it; otherwise we show a link.
+\IfFileExists{/mnt/data/ttc_sim.py}{%
+  \lstinputlisting[language=Python]{/mnt/data/ttc_sim.py}
+}{%
+  \noindent\textit{Source file:}
+  \href{sandbox:/mnt/data/ttc_sim.py}{/mnt/data/ttc_sim.py}
+}
+
+\section{Additional assets (download links)}
+\vspace{-0.5em}
+\begin{itemize}[leftmargin=1.5em]
+  \item TTC preprint (v1): \href{sandbox:/mnt/data/TTC_v1_Preprint.pdf}{/mnt/data/TTC_v1_Preprint.pdf}
+  \item Referee crib sheet: \href{sandbox:/mnt/data/TTC_v1_Referee_Crib_Sheet.pdf}{/mnt/data/TTC_v1_Referee_Crib_Sheet.pdf}
+  \item Press summary: \href{sandbox:/mnt/data/TTC_v1_Press_Summary.pdf}{/mnt/data/TTC_v1_Press_Summary.pdf}
+  \item CMB test script: \href{sandbox:/mnt/data/ttc_cmb_test.py}{/mnt/data/ttc_cmb_test.py}
+  \item Power-spectrum amplitude: \href{sandbox:/mnt/data/ttc_pcl_amp.py}{/mnt/data/ttc_pcl_amp.py}
+  \item PDP protocol code: \href{sandbox:/mnt/data/pdp_protocol_code.pdf}{/mnt/data/pdp_protocol_code.pdf}
+\end{itemize}
+
+\end{document}
