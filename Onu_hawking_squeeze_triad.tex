@@ -1,0 +1,587 @@
+% !TEX program = lualatex
+\documentclass[11pt]{article}
+
+% ---------- PACKAGES ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+% ---------- TITLE ----------
+\title{\textbf{Onu Gauge, Hawking--Squeeze, and the M\"obius Ledger:\\
+Black Holes on the Kitchen Table}}
+
+\author{Yay / Onu Collective}
+\date{\today}
+
+% ---------- SHORTCUTS ----------
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Rpos}{\mathbb{R}_{>0}}
+\newcommand{\Onu}{\mathcal{O}}
+\newcommand{\sL}{\mathcal{S}}
+
+\newcommand{\nref}[2]{n_{#1}\!\left(#2\right)}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We show that three apparently distinct constructions share a single
+mathematical spine: (i) General Relativity rewritten in terms of a
+recursive compactness parameter, (ii) a logarithmic laboratory nozzle
+(the ``Hawking--Squeeze''), where flow speed and pressure become
+straight lines in a log gauge, and (iii) the M\"obius ``Onu ledger,''
+in which all subtraction is absorbed into a gauge choice on a positive
+scale coordinate.  The common structure is a log-domain recursion
+parameter that linearizes dynamics and concentrates residuals at a
+horizon or core.  We prove a gauge-equivalence theorem for the ledger,
+derive the Hawking--Squeeze flow laws in the same gauge, and show that
+Schwarzschild geometry admits an analogous horizon coordinate.  Black
+holes, nozzle vortices, and positive-ledger arithmetic are thereby
+unified as specializations of a single Onu recursion identity.
+\end{abstract}
+
+\tableofcontents
+
+% ===========================================================
+\section{Introduction}
+% ===========================================================
+
+Standard physical theories are usually presented in different
+coordinate systems and notations: curvature tensors in General
+Relativity (GR), area--velocity relations in compressible flow,
+and signed real lines in elementary calculus.  The Onu Calculus
+proposes that these are all shadows of a simpler structure: a
+\emph{log-domain ledger} with a single recursion parameter and a
+boundary where residuals accumulate.
+
+Three ingredients recur:
+
+\begin{enumerate}[label=(\roman*)]
+    \item a positive scale variable (radius, cross-section, length),
+    \item a logarithmic ledger coordinate on that scale, and
+    \item a compactness-like parameter that recurses linearly in the ledger.
+\end{enumerate}
+
+In this paper we make that common structure explicit in three domains:
+gravity, laboratory fluid flow, and arithmetic.
+
+\subsection*{Why ``Onu''?}
+
+The term \emph{Onu} is used throughout the broader Onu Calculus
+framework as a label for the positive-domain, log-linear organization
+of quantities.  In this note, the word carries no prior technical
+baggage: it simply names (i) the ratio-based difference operation on
+$\Rpos$, (ii) the associated logarithmic ledger coordinate, and
+(iii) the M\"obius-band picture in which any point can serve as the
+``knot'' or reference.  Readers unfamiliar with the wider framework
+may safely treat ``Onu'' as shorthand for
+``log-linear positive-ledger gauge.''
+
+\subsection*{Black holes on the kitchen table}
+
+The phrase ``black holes on the kitchen table'' is intended literally:
+once the underlying recursion form is exposed, the same structural
+pattern that organizes a Schwarzschild horizon also appears in a
+desktop-scale nozzle experiment and in the arithmetic of positive
+ratios.  The horizon, the vortex core, and the ledger knot are
+different manifestations of a common log-linear recursion with a
+boundary where residuals are stored.
+
+% ===========================================================
+\section{Onu Difference and Scale Ledger}
+% ===========================================================
+
+\begin{definition}[Onu difference]
+For $a,b \in \Rpos$, the \emph{Onu difference} is
+\begin{equation}
+    a \ominus b := \frac{a}{b} \in \Rpos.
+\end{equation}
+Taking logarithms in any base converts this multiplicative difference
+into an additive one:
+\begin{equation}
+    \log(a \ominus b) = \log a - \log b.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Scale ledger]
+Fix a reference scale $r_0 \in \Rpos$.  The associated
+\emph{scale-ledger coordinate} of $r \in \Rpos$ is
+\begin{equation}
+    \nref{r_0}{r} := -\log_2\!\left(\frac{r}{r_0}\right).
+\end{equation}
+The set $\sL(r_0) := \{\nref{r_0}{r} \mid r \in \Rpos\}$ is the
+\emph{scale ledger} anchored at $r_0$.
+\end{definition}
+
+The key idea is that $\Rpos$ is viewed not as a signed line but as a
+single positive band.  Differences are expressed as ratios, and the
+logarithm provides an additive coordinate on that band.
+
+% ===========================================================
+\section{M\"obius Ledger and Gauge Equivalence}
+% ===========================================================
+
+Operationally there are two ways to ``balance'' a ledger.
+
+\begin{itemize}
+    \item[(A)] Fix the reference $r_0$ and move the entries $r \mapsto r'$.
+    \item[(B)] Fix the entries and move the reference $r_0 \mapsto r_0'$.
+\end{itemize}
+
+Geometrically, we imagine the ledger as a M\"obius band and a marked
+knot labeled ``Onu'' on that band.  In scenario (A), we slide entries
+around the band relative to a fixed knot.  In scenario (B), we slide
+the knot along the band while keeping entries fixed.  We now show that
+these are equivalent at the level of ledger \emph{differences}.
+
+\begin{theorem}[Onu M\"obius Gauge Equivalence]
+\label{thm:mobius}
+Let $r_0,r_0' \in \Rpos$ be two reference scales, and define
+$\nref{r_0}{\cdot}$ and $\nref{r_0'}{\cdot}$ as above.
+Then for every $r \in \Rpos$,
+\begin{equation}
+    \nref{r_0'}{r}
+    = \nref{r_0}{r} + C(r_0',r_0),
+\end{equation}
+where the constant
+\begin{equation}
+    C(r_0',r_0) := \log_2\!\left(\frac{r_0'}{r_0}\right)
+\end{equation}
+is independent of $r$.  Consequently, for any $r_1,r_2 \in \Rpos$,
+\begin{equation}
+    \nref{r_0'}{r_1} - \nref{r_0'}{r_2}
+    = \nref{r_0}{r_1} - \nref{r_0}{r_2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By definition,
+\begin{align}
+    \nref{r_0'}{r}
+      &= -\log_2\!\left(\frac{r}{r_0'}\right)
+       = -\log_2\!\left(\frac{r}{r_0}\cdot\frac{r_0}{r_0'}\right) \\
+      &= -\log_2\!\left(\frac{r}{r_0}\right)
+         -\log_2\!\left(\frac{r_0}{r_0'}\right) \\
+      &= \nref{r_0}{r}
+         + \log_2\!\left(\frac{r_0'}{r_0}\right),
+\end{align}
+which establishes the claimed form with
+$C(r_0',r_0) = \log_2(r_0'/r_0)$.
+For any pair $(r_1,r_2)$ we then have
+\begin{align}
+    \nref{r_0'}{r_1} - \nref{r_0'}{r_2}
+      &= \bigl(\nref{r_0}{r_1} + C\bigr)
+       - \bigl(\nref{r_0}{r_2} + C\bigr) \\
+      &= \nref{r_0}{r_1} - \nref{r_0}{r_2},
+\end{align}
+so all ledger differences are invariant under the change of reference.
+\end{proof}
+
+\begin{remark}
+Ledger balance conditions that depend only on differences
+(affine constraints) are indifferent to the choice of $r_0$.  What
+looks like subtraction (moving entries) can be reinterpreted as a
+change of reference (moving the knot).  The M\"obius picture expresses
+this as a topological fact: one band, many possible centers.
+\end{remark}
+
+% ===========================================================
+\section{GR in Onu Gauge: Recursive Compactness}
+% ===========================================================
+
+We now pass to gravity.  General Relativity in Schwarzschild form
+typically uses curvature and metric functions of radius $R$.
+Onu Calculus replaces curvature with a \emph{recursive compactness}
+parameter that plays the same structural role across domains.
+
+\subsection{Compactness as recursion parameter}
+
+For a spherically symmetric mass distribution with enclosed mass
+$\mathcal{M}(R)$, define
+\begin{equation}
+    C(R) = u(R) := \frac{2\mathcal{M}(R)}{R c^2}.
+\end{equation}
+In standard GR this is gravitational compactness; $u=1$ corresponds to
+the Schwarzschild radius $R=r_s$.  In the Onu view, $u$ is elevated to
+a universal recursion parameter.
+
+Consider the Schwarzschild metric
+\begin{equation}
+    \dd s^2 = -\left(1-\frac{r_s}{R}\right)c^2\dd t^2
+              + \left(1-\frac{r_s}{R}\right)^{-1}\dd R^2 + R^2\dd\Omega^2,
+\end{equation}
+with $r_s = 2GM/c^2$.  The problematic factors near the horizon are
+powers of $1-r_s/R = 1-u$.
+
+\subsection{Horizon-relative log coordinate}
+
+Introduce the horizon-relative log coordinate
+\begin{equation}
+    s = \ln\left(\frac{R}{r_s}\right),
+    \qquad R = r_s e^{s},
+\end{equation}
+so that $s=0$ labels the horizon, $s>0$ the exterior, and $s<0$ the
+interior.
+
+We have
+\begin{equation}
+    1-\frac{r_s}{R} = 1 - e^{-s},
+\end{equation}
+which is smooth through $s=0$.  The apparent singularity in the metric
+is therefore a coordinate artifact removed by the same log gauge used
+for the ledger.
+
+Moreover, the compactness becomes
+\begin{equation}
+    u(s) = \frac{r_s}{R} = e^{-s},
+\end{equation}
+so that
+\begin{equation}
+    \ln u(s) = -s.
+\end{equation}
+In other words, the log of the recursion parameter is itself a straight
+line in the horizon gauge: compactness is an exponential of the ledger
+coordinate.
+
+This is the first member of the ``Onu triad":
+\begin{center}
+    \emph{gravity: } $\ln u = -s$ is linear in the log gauge.
+\end{center}
+
+% ===========================================================
+\section{Hawking--Squeeze Nozzle as Onu Flow}
+% ===========================================================
+
+We now consider a laboratory flow configuration: an axisymmetric
+nozzle whose radius decreases exponentially with a scale coordinate
+$s$.  We show that, in the same log gauge, both flow speed and
+pressure follow simple recursion laws, with a floor that plays the
+role of a horizon.
+
+\subsection{Geometry and continuity}
+
+Let the nozzle radius be
+\begin{equation}
+    R(s) = R_0 e^{-\beta s},
+\end{equation}
+for some taper parameter $\beta>0$.  Then the cross-sectional area
+satisfies
+\begin{equation}
+    A(s) \propto R(s)^2 \propto e^{-2\beta s}.
+\end{equation}
+
+Assume steady compressible flow with density $\rho(s)$ and speed
+$v(s)$.  Continuity $\rho v A = \text{const}$ gives
+\begin{equation}
+    \rho(s)\,v(s)\,e^{-2\beta s} = \rho_0 v_0,
+\end{equation}
+where $(\rho_0,v_0)$ are values at some reference $s=0$.
+
+\subsection{Isentropic flow and Mach number}
+
+Assume isentropic flow of a perfect gas with ratio of specific heats
+$\gamma$.  Standard compressible-flow relations yield
+\begin{equation}
+    \frac{p}{p_0}
+      = \left(1 + \frac{\gamma-1}{2}M^2\right)^{-\gamma/(\gamma-1)},
+\end{equation}
+where $M=v/c$ is the local Mach number, $c$ the sound speed, and $p_0$
+the reservoir pressure.  Eliminating $\rho$ via the equation of state
+and continuity, one finds that $M^2$ grows approximately as
+$e^{4\beta s}$ in the accelerating region of the nozzle; a simple
+model captures this by
+\begin{equation}
+    M^2(s) \approx M_0^2 e^{4\beta s},
+\end{equation}
+with $M_0$ the Mach number at $s=0$.
+
+Plugging this into the isentropic formula motivates the
+\emph{Hawking--Squeeze model}:
+\begin{equation}
+    \frac{p(s)}{p_0}
+      = \max\!\left\{\delta_p,
+        \left(1 + \frac{\gamma-1}{2}M_0^2 e^{4\beta s}\right)^{-\gamma/(\gamma-1)}
+        \right\},
+\end{equation}
+where $0<\delta_p<1$ is a \emph{pressure floor} associated with a
+vortex core at the nozzle exit.
+
+\subsection{Log-slope law and pressure floor}
+
+In the accelerating region (before the floor is hit), continuity plus
+the approximate $M^2(s)$ behavior yield
+\begin{equation}
+    v(s) \propto e^{2\beta s}.
+\end{equation}
+Taking logarithms,
+\begin{equation}
+    \ln v(s) = \ln v_0 + 2\beta s.
+\end{equation}
+Thus a plot of $\ln v$ versus $s$ (or equivalently $\ln v$ versus
+$\ln R$) is a straight line of slope $2\beta$ set purely by the
+geometry of the taper.  This is the \emph{log-slope law}.
+
+As $s$ increases and $M^2(s)$ becomes large, the isentropic factor
+drives $p(s)/p_0$ down until it saturates at $\delta_p$:
+\begin{equation}
+    \lim_{s\to\infty}\frac{p(s)}{p_0} = \delta_p.
+\end{equation}
+Further increase in drive power does not appreciably lower the static
+pressure; instead, the residual is carried by the vortex core.  This
+is the \emph{pressure floor}.
+
+In summary:
+
+\begin{center}
+\begin{tabular}{l}
+    \emph{nozzle (Hawking--Squeeze):} \\[4pt]
+    $\ln v(s) = \ln v_0 + 2\beta s$ (log-slope law),\\[2pt]
+    $p(s)/p_0 \to \delta_p$ (pressure floor).
+\end{tabular}
+\end{center}
+
+The flow inherits the same log-linear recursion structure seen in the
+gravity case, with $\beta$ playing the role of a slope parameter and
+$\delta_p$ acting as a horizon-like floor.
+
+% ===========================================================
+\section{Onu Triad: Gravity, Nozzle, Ledger}
+% ===========================================================
+
+We can now state the structural equivalence more formally.
+
+\begin{definition}[Onu recursion form]
+A system is said to be in \emph{Onu recursion form} if there exists a
+scale coordinate $s$ and observable $X(s)$ such that
+\begin{equation}
+    \ln X(s) = \ln X_0 + \kappa s,
+\end{equation}
+for some constant slope $\kappa$, possibly up to a floor or ceiling
+where the recursion terminates and residuals are carried by a boundary
+(horizon, core, or ledger knot).
+\end{definition}
+
+\begin{proposition}[Onu triad]
+The following are all instances of Onu recursion form:
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Gravity.} With $s=\ln(R/r_s)$, the compactness
+    satisfies $\ln u(s) = -s$.
+    \item \textbf{Nozzle (Hawking--Squeeze).} With $s$ the taper
+    coordinate, the flow speed satisfies $\ln v(s) = \ln v_0 + 2\beta s$,
+    and $p(s)/p_0$ approaches a floor $\delta_p$.
+    \item \textbf{Ledger.} With $s$ replaced by the scale ledger
+    coordinate $\nref{r_0}{r}$, any ratio $X(r)/X(r_0)$ satisfying
+    a multiplicative law $X\propto r^{-\alpha}$ obeys
+    \begin{equation}
+        \ln X(r) = \ln X(r_0) + (\alpha \ln 2)\,\nref{r_0}{r}.
+    \end{equation}
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Item (a) follows from $u(r_s e^{s}) = e^{-s}$ as shown above.
+Item (b) follows from the continuity and isentropic arguments leading
+to $v(s)\propto e^{2\beta s}$, with the floor given by the limiting
+behavior of $p(s)/p_0$.  For item (c), if $X(r)\propto r^{-\alpha}$,
+then $X(r)/X(r_0) = (r/r_0)^{-\alpha}$, so
+\begin{equation}
+    \ln X(r)
+      = \ln X(r_0) -\alpha\ln\!\left(\frac{r}{r_0}\right)
+      = \ln X(r_0) + (\alpha\ln 2)\,\nref{r_0}{r}.
+\end{equation}
+\end{proof}
+
+\begin{remark}
+In each case, the log of the central quantity of interest (compactness,
+speed, or field) is an affine function of a log-gauge coordinate.
+Residuals that do not fit the simple recursion---mass beyond the
+horizon, vorticity in the nozzle core, or off-ledger imbalances---are
+concentrated at a boundary.  This is the sense in which ``black
+holes are on the kitchen table'': the nozzle plus ledger implement the
+same recursion pattern as a horizon.
+\end{remark}
+
+% ===========================================================
+\section{Broader Context}
+% ===========================================================
+
+The Onu recursion pattern resonates with several well-known structures
+in mathematical physics:
+
+\begin{itemize}
+    \item \textbf{Renormalization group (RG).}
+    Many RG flows become linear in a logarithmic length scale,
+    $t = \ln(\mu/\mu_0)$, with couplings following $\dd g/\dd t =
+    \beta(g)$.  Near fixed points, $\beta(g)\approx \lambda(g-g_\ast)$
+    yields log-linear scaling laws.  The Onu ledger can be viewed as
+    an RG-like flow on a positive scale band with a single effective
+    parameter.
+
+    \item \textbf{Entropy and area laws.}
+    Black-hole entropy scaling with horizon area, and various
+    entanglement entropy area laws, can be interpreted as ledger
+    statements about how information density is organized across
+    scales.  Compactness $u(R)$ acts as an Onu-style recursion of
+    ``information per radius''.
+
+    \item \textbf{Diffusion in log space.}
+    Diffusion processes on multiplicative variables (e.g.\ log-normal
+    distributions) become ordinary Brownian motion in the log
+    coordinate.  This is closely related to the ledger diffusion
+    picture in other Onu work, where information density diffuses on
+    the scale ledger.
+\end{itemize}
+
+These analogies suggest that the Onu gauge is not an isolated trick
+but part of a broader family of log-linear recursion frameworks.
+
+% ===========================================================
+\section{Kitchen-Table Hawking--Squeeze Experiment}
+% ===========================================================
+
+To emphasize testability, we outline a concrete experiment capable of
+probing the Onu structure in a tabletop setting.
+
+\subsection{Geometry and setup}
+
+\begin{itemize}
+    \item Construct a smooth axisymmetric nozzle with radius
+    \[
+      R(s) = R_0 e^{-\beta s}, \quad s\in[0,s_{\max}],
+    \]
+    where $s$ is measured along the centerline and $\beta$ is set by
+    the machining taper.  3D printing or CNC machining allow accurate
+    logarithmic profiles.
+    \item Drive a compressible gas (e.g.\ air) from a plenum at
+    pressure $p_0$ through the nozzle into ambient conditions.
+    \item Instrument the nozzle with:
+        \begin{enumerate}
+            \item wall pressure taps at a sequence of $s_i$,
+            \item at least one Pitot tube or equivalent to measure
+            local flow speed or Mach number,
+            \item a microphone or flow-tone sensor to track frequency
+            shifts of an injected acoustic tone.
+        \end{enumerate}
+\end{itemize}
+
+\subsection{Predicted signatures}
+
+The Hawking--Squeeze model predicts two primary signatures:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Log-slope law.}
+    Plot $\ln v(s_i)$ versus $s_i$ (or equivalently
+    $\ln v$ versus $\ln R$).  The data should align along a straight
+    line of slope $2\beta$ set purely by the taper geometry.  The same
+    slope should appear in the log of the frequency up-shift of a tone
+    passed through the nozzle.
+
+    \item \textbf{Pressure floor.}
+    Plot $p(s_i)/p_0$ versus $s_i$ for increasing drive amplitude.
+    Curves should converge to a common asymptotic profile with a floor
+    value $\delta_p$ at large $s_i$, independent of further increases
+    in drive once a stable vortex core is established at the exit.
+\end{enumerate}
+
+A minimal figure for this experiment would include:
+
+\begin{itemize}
+    \item a schematic of the nozzle geometry with logarithmic $R(s)$,
+    \item a log-linear plot of $\ln v$ versus $s$ showing the fitted
+    slope $2\beta$,
+    \item pressure profiles illustrating convergence to the floor
+    $\delta_p$ as drive increases.
+\end{itemize}
+
+Successful observation of both signatures would provide an
+operational realization of the Onu recursion form and an accessible
+analog of horizon physics.
+
+% ===========================================================
+\section{Discussion and Outlook}
+% ===========================================================
+
+We have shown that a single log-domain recursion pattern---the Onu
+gauge---underlies three seemingly disparate phenomena: Schwarzschild
+compactness, logarithmic nozzle flow, and positive-ledger arithmetic.
+The M\"obius gauge-equivalence theorem (Theorem~\ref{thm:mobius})
+demonstrates that subtraction can be absorbed into a choice of
+reference; the gravity and nozzle examples show that horizons and
+vortex cores play the same structural role as ledger knots.
+
+Beyond the immediate triad, at least three directions suggest
+themselves:
+
+\begin{enumerate}
+    \item \textbf{Experimental tests.}
+    The kitchen-table Hawking--Squeeze experiment outlined above
+    provides falsifiable predictions: a geometric log-slope law and a
+    drive-independent pressure floor.  Variants could explore
+    different tapers, working fluids, or acoustic diagnostics.
+
+    \item \textbf{Further domains.}
+    The same log-gauge may organize:
+    \begin{itemize}
+        \item cascades in turbulence (energy flux across scales),
+        \item hierarchical networks (degree distributions in log space),
+        \item multiplicative finance processes (volatility on log-returns),
+        \item information cascades in communication systems.
+    \end{itemize}
+    Each case invites a reformulation in terms of an Onu ledger with a
+    compactness-like recursion parameter.
+    
+    \item \textbf{Universality conjecture.}
+    Informally, we conjecture that any system with:
+    \begin{enumerate}
+        \item a positive scale variable,
+        \item a distinguished boundary (horizon, core, or sink), and
+        \item a single effective recursion parameter,
+    \end{enumerate}
+    can be mapped into Onu recursion form by an appropriate log gauge.
+    Classifying such universality classes and their invariants is a
+    natural direction for further work.
+\end{enumerate}
+
+In this sense, the Onu gauge is not a new physical theory but a
+unifying pedagogical and mathematical framework: a way of placing
+gravity, vortex flows, and arithmetic on the same positive, twisted
+band.
+
+% ===========================================================
+\section*{Figures}
+% ===========================================================
+
+\begin{figure}[h]
+    \centering
+    % Replace with your vortex-core artwork or data-driven schematic
+    \includegraphics[width=0.8\textwidth]{fig/hawking_squeeze_vortex.png}
+    \caption{\textbf{Hawking--Squeeze nozzle in Onu gauge.}
+    A logarithmic taper straightens the flow laws in the log coordinate
+    $s$, with velocity following a line of slope $2\beta$ and pressure
+    falling to a vortex-core floor $\delta_p$.  In a data-driven
+    version of this figure, axes would be labeled in physical units
+    and straight-line fits overlaid on measured points.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    % Replace with your "Two Ways to Onu" slide filename
+    \includegraphics[width=0.8\textwidth]{fig/two_ways_to_onu.png}
+    \caption{\textbf{Two Ways to Onu.}
+    Left: flow the M\"obius ledger through a fixed Onu knot (move
+    entries).  Right: move the Onu knot along a fixed ledger (change
+    reference).  The gauge-equivalence theorem shows these procedures
+    are mathematically identical at the level of ledger differences.}
+\end{figure}
+
+\end{document}
