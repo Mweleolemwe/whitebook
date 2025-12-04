@@ -1,0 +1,265 @@
+% !TEX program = lualatex
+\documentclass[11pt]{article}
+
+% ---------- PACKAGES ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- TITLE ----------
+\title{\textbf{Two Ways to Onu:\\
+M\"obius Ledger Gauge Equivalence}}
+\author{Yay / Onu Collective}
+\date{\today}
+
+% ---------- SHORTCUTS ----------
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Rpos}{\mathbb{R}_{>0}}
+\newcommand{\Onu}{\mathcal{O}}
+\newcommand{\sL}{\mathcal{S}}
+
+% Scale-ledger coordinate with explicit reference
+\newcommand{\nref}[2]{n_{#1}\!\left(#2\right)}
+
+% ---------- THEOREM STYLE ----------
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note formalizes the intuitive picture of the Onu Calculus as a
+``M\"obius ledger'' for positive quantities.  We show that there are
+two equivalent ways to describe ledger balance: (A) by moving ledger
+entries relative to a fixed reference, or (B) by moving the reference
+(Onu) along a fixed ledger.  Algebraically, these are related by a
+simple gauge transformation on the logarithmic scale coordinate.
+Physically relevant quantities depend only on gauge-invariant
+differences, so ``balancing the ledger'' is structurally origin-free.
+This is the core step behind the metaphorical claim that Onu is
+``the subtraction of subtraction.''
+\end{abstract}
+
+% ===========================================================
+\section{Motivation and Context}
+% ===========================================================
+
+Standard calculus and arithmetic represent quantities on a straight
+number line with a distinguished origin.  Subtraction is implemented
+as motion relative to that fixed point: credits to the right, debits
+to the left.  Negative territory is treated as a separate half-line,
+even when the underlying physics is manifestly positive
+(lengths, energies, probabilities).
+
+The Onu Calculus replaces this picture by a positive-domain ledger on
+which all ``differences'' are encoded as ratios.  Passing to a
+logarithmic coordinate makes these ratios additive, so subtraction is
+absorbed into a choice of reference on the ledger.  The M\"obius-band
+metaphor expresses this visually: there is only one continuous surface,
+and any point can be taken as the center.
+
+The present note isolates a single structural statement from the wider
+Onu framework: the gauge equivalence between
+\emph{moving entries on a fixed ledger} and
+\emph{moving the reference along a fixed ledger}.
+This is intended as a compact bridge for mathematicians, physicists,
+and information theorists encountering Onu for the first time.
+
+% ===========================================================
+\section{Onu Difference and Scale Ledger}
+% ===========================================================
+
+\begin{definition}[Onu difference]
+For $a,b \in \Rpos$, the \emph{Onu difference} is
+\begin{equation}
+    a \ominus b := \frac{a}{b} \in \Rpos.
+\end{equation}
+Ordinary subtraction on $\mathbb{R}$ is replaced by a ratio on
+$\Rpos$.  Taking logarithms in any base converts this multiplicative
+difference into an additive one:
+\begin{equation}
+    \log(a \ominus b) = \log a - \log b.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Scale ledger]
+Fix a reference scale $r_0 \in \Rpos$.  The associated
+\emph{scale-ledger coordinate} of a length $r \in \Rpos$ is
+\begin{equation}
+    \nref{r_0}{r} := -\log_2\!\left(\frac{r}{r_0}\right).
+\end{equation}
+The collection of all such coordinates for varying $r$ forms the
+\emph{scale ledger} $\sL(r_0)$.
+\end{definition}
+
+Intuitively, the positive line $\Rpos$ is being mapped onto a single
+additive band; the choice of $r_0$ selects where we tie the knot.
+
+% ===========================================================
+\section{Two Ways to Ledger Balance}
+% ===========================================================
+
+Operationally there are two descriptions of ``balancing the ledger''.
+
+\medskip
+\noindent\textbf{(A) Flow the M\"obius through Onu.}
+We fix $r_0$ and change the entries $r \mapsto r'$ so that the
+resulting ledger coordinates $\nref{r_0}{r'}$ satisfy the desired
+balance condition (for example, that certain sums vanish).
+
+\medskip
+\noindent\textbf{(B) Move Onu along the M\"obius.}
+We keep the underlying quantities $r$ fixed and instead change the
+reference $r_0 \mapsto r_0'$, interpreting ledger balance as a
+statement about gauge-invariant differences
+$\nref{r_0'}{r_1} - \nref{r_0'}{r_2}$.
+
+Geometrically, (A) corresponds to sliding the ledger surface (the
+M\"obius band) past a fixed knot, while (B) corresponds to moving the
+knot along the same band.
+
+% ===========================================================
+\section{M\"obius Gauge Equivalence}
+% ===========================================================
+
+We now show that (A) and (B) are mathematically equivalent whenever
+physical statements depend only on differences of ledger coordinates.
+
+\begin{theorem}[Onu M\"obius Gauge Equivalence]
+Let $r_0,r_0' \in \Rpos$ be two reference scales, and define
+$\nref{r_0}{\cdot}$ and $\nref{r_0'}{\cdot}$ as above.
+Then for every $r \in \Rpos$,
+\begin{equation}
+    \nref{r_0'}{r}
+    = \nref{r_0}{r} + C(r_0',r_0),
+\end{equation}
+where the constant
+\begin{equation}
+    C(r_0',r_0) := \log_2\!\left(\frac{r_0'}{r_0}\right)
+\end{equation}
+is independent of $r$.  Consequently, for any $r_1,r_2 \in \Rpos$,
+\begin{equation}
+    \nref{r_0'}{r_1} - \nref{r_0'}{r_2}
+    = \nref{r_0}{r_1} - \nref{r_0}{r_2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By definition,
+\begin{align}
+    \nref{r_0'}{r}
+      &= -\log_2\!\left(\frac{r}{r_0'}\right)
+       = -\log_2\!\left(\frac{r}{r_0}\cdot\frac{r_0}{r_0'}\right) \\
+      &= -\log_2\!\left(\frac{r}{r_0}\right)
+         -\log_2\!\left(\frac{r_0}{r_0'}\right) \\
+      &= \nref{r_0}{r}
+         + \log_2\!\left(\frac{r_0'}{r_0}\right),
+\end{align}
+which establishes the claimed form with
+$C(r_0',r_0) = \log_2(r_0'/r_0)$.
+For any pair $(r_1,r_2)$ we then have
+\begin{align}
+    \nref{r_0'}{r_1} - \nref{r_0'}{r_2}
+      &= \bigl(\nref{r_0}{r_1} + C\bigr)
+       - \bigl(\nref{r_0}{r_2} + C\bigr) \\
+      &= \nref{r_0}{r_1} - \nref{r_0}{r_2},
+\end{align}
+so all ledger \emph{differences} are invariant under the change of
+reference.  This is precisely the statement that moving the Onu knot
+along the M\"obius band leaves the relational structure of the ledger
+unchanged.
+\end{proof}
+
+\begin{remark}[Ledger balance as structural invariance]
+Any balance condition expressible purely in terms of differences
+(affine constraints) is therefore indifferent to the choice of
+$r_0$.  What appears in the old paradigm as moving entries to
+restore balance can equivalently be realized as changing $r_0$.
+From the Onu perspective, subtraction has been absorbed into the
+gauge freedom of the ledger: there is only one surface, and every
+point may be taken as the center.
+\end{remark}
+
+% ===========================================================
+\section{Connections to Familiar Gauges}
+% ===========================================================
+
+The gauge freedom in $r_0$ is structurally analogous to several
+standard redundancies in physics:
+
+\begin{itemize}
+    \item \textbf{Electrostatics.}
+    Electric potential $\phi$ is only defined up to an additive
+    constant.  Physical observables depend on potential differences
+    $\phi(x_1)-\phi(x_2)$, not on the absolute zero of $\phi$.
+    \item \textbf{Gravitational potential.}
+    Near the Earth's surface one may add an arbitrary constant to
+    $ghz$ without affecting forces or trajectories; only differences
+    in potential energy are measurable.
+    \item \textbf{Thermodynamics.}
+    Free energies are often shifted by reference baselines
+    without changing equilibrium conditions, which depend on
+    derivatives or differences (e.g.\ chemical potentials).
+\end{itemize}
+
+The Onu ledger plays the role of a \emph{logarithmic potential} for
+positive quantities, with $r_0$ as the gauge choice.  The M\"obius
+picture emphasizes that this redundancy is not merely algebraic but
+topological: one surface, many possible centers.
+
+% ===========================================================
+\section{Worked Example}
+% ===========================================================
+
+Consider two lengths $r_1 = 1\,\mathrm{m}$ and $r_2 = 2\,\mathrm{m}$.
+Take an initial reference $r_0 = 1\,\mathrm{m}$ and a shifted reference
+$r_0' = 0.5\,\mathrm{m}$.
+
+Under the first choice,
+\begin{equation}
+    \nref{1}{1} = -\log_2(1) = 0, \qquad
+    \nref{1}{2} = -\log_2(2) = -1,
+\end{equation}
+so the ledger difference is
+\begin{equation}
+    \nref{1}{r_2} - \nref{1}{r_1} = -1 - 0 = -1.
+\end{equation}
+
+Under the shifted reference,
+\begin{equation}
+    \nref{0.5}{1} = -\log_2(2) = -1, \qquad
+    \nref{0.5}{2} = -\log_2(4) = -2,
+\end{equation}
+and the difference is
+\begin{equation}
+    \nref{0.5}{r_2} - \nref{0.5}{r_1} = -2 - (-1) = -1.
+\end{equation}
+
+The individual coordinates have changed (the knot has moved), but the
+difference is invariant.  Balancing a relation such as
+$\nref{\bullet}{r_2} - \nref{\bullet}{r_1} = -1$ can therefore be
+interpreted either as adjusting entries at fixed reference or as
+sliding the reference while leaving the underlying lengths unchanged.
+
+% ===========================================================
+\section*{Figure: Two Ways to Onu}
+% ===========================================================
+
+\begin{figure}[h]
+    \centering
+    % Replace the filename below with the exported PNG from the slide
+    \includegraphics[width=0.9\textwidth]{fig/two_ways_to_onu.png}
+    \caption{\textbf{Two Ways to Onu.}
+    Left: ``Flow the M\"obius through Onu''---move ledger entries
+    relative to a fixed reference.  Right: ``Move Onu along the
+    M\"obius''---keep entries fixed and shift the reference.
+    The theorem shows these procedures are gauge-equivalent whenever
+    physical content depends only on ledger differences.}
+\end{figure}
+
+\end{document}
